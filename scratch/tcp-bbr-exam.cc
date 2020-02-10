@@ -237,6 +237,7 @@ int main (int argc, char *argv[])
       TypeId tcpTid;
       NS_ABORT_MSG_UNLESS (TypeId::LookupByNameFailSafe (transport_prot, &tcpTid), "TypeId " << transport_prot << " not found");
       Config::SetDefault ("ns3::TcpL4Protocol::SocketType", TypeIdValue (TypeId::LookupByName (transport_prot)));
+      Config::SetDefault ("ns3::TcpBbr::BBRVariant", EnumValue (TcpBbr::BBR));
     }
 
   Ptr<UniformRandomVariable> uv = CreateObject<UniformRandomVariable> ();
