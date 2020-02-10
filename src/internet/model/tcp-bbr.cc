@@ -226,7 +226,18 @@ TcpBbr::IsNextCyclePhase (Ptr<TcpSocketState> tcb, const struct RateSample * rs)
     }
   else
     {
-      return isFullLength || tcb->m_priorInFlight <= InFlight (tcb, 1);
+      if (m_variant == TcpBbr::BBR)
+        {
+          return isFullLength;
+        }
+      else if (m_variant == TcpBbr::BBR_PRIME)
+        {              
+          return tcb->m_priorInFlight <= InFlight (tcb, 1);
+        }
+      else
+        {
+          return isFullLength || tcb->m_priorInFlight <= InFlight (tcb, 1);
+        } 
     }
 }
 
