@@ -58,6 +58,16 @@ TcpBbr::GetTypeId (void)
                    TimeValue (MilliSeconds (200)),
                    MakeTimeAccessor (&TcpBbr::m_probeRttDuration),
                    MakeTimeChecker ())
+    .AddAttribute ("BBRVariant",
+                   "Variant of BBR to use",
+                   EnumValue (TcpBbr::BBR),
+                   MakeEnumAccessor (&TcpBbr::m_variant),
+                   MakeEnumChecker (TcpBbr::BBR, "BBR",
+                                    TcpBbr::BBR_PRIME, "BBR Prime",
+                                    TcpBbr::BBR_PLUS, "BBR Plus",
+                                    TcpBbr::BBR_HR, "BBR+",
+                                    TcpBbr::BBR_DELAY, "Delay-BBR",
+                                    TcpBbr::BBR_V2, "BBR V2"))
   ;
   return tid;
 }
@@ -667,6 +677,20 @@ TcpBbr::CwndEvent (Ptr<TcpSocketState> tcb,
             }
         }
     }
+}
+
+uint32_t
+TcpBbr::GetBbrVariant ()
+{
+  NS_LOG_FUNCTION (this);
+  return m_variant;
+}
+
+void 
+TcpBbr::SetBbrVariant (BbrVar variant)
+{
+  NS_LOG_FUNCTION (this << variant);
+  m_variant = variant;
 }
 
 uint32_t

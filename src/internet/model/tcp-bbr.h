@@ -77,6 +77,17 @@ public:
                          uint32_t>
   MaxBandwidthFilter_t;
 
+  // Different Variations of BBR
+  typedef enum
+  {
+    BBR,
+    BBR_PRIME,
+    BBR_PLUS,
+    BBR_HR,
+    BBR_V2,
+    BBR_DELAY
+  } BbrVar;
+
   /**
    * Assign a fixed random variable stream number to the random variables
    * used by this model.  Return the number of streams (possibly zero) that
@@ -317,6 +328,18 @@ protected:
    */
   std::string WhichState (BbrMode_t state) const;
 
+  /**
+   * \brief Get BBR variant.
+   * \return Return BBR Variant.
+   */
+  uint32_t GetBbrVariant ();
+
+  /**
+   * \brief Set BBR variant.
+   * \param variant BBR variant.
+   */
+  void SetBbrVariant (BbrVar variant);
+
 private:
   BbrMode_t   m_state        {BbrMode_t::BBR_STARTUP};           //!< Current state of BBR state machine
   MaxBandwidthFilter_t   m_maxBwFilter;                          //!< Maximum bandwidth filter
@@ -348,6 +371,7 @@ private:
   Time        m_rtPropStamp                 {Seconds (0)};       //!< The wall clock time at which the current BBR.RTProp sample was obtained
   bool        m_isInitialized               {false};             //!< Set to true after first time initializtion variables
   Ptr<UniformRandomVariable> m_uv           {nullptr};           //!< Uniform Random Variable
+  BbrVar      m_variant                     {BbrVar::BBR};       //!< Variant of BBR
 };
 
 } // namespace ns3
