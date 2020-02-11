@@ -46,6 +46,11 @@ public:
   const static double PACING_GAIN_CYCLE [];
 
   /**
+   * \brief BBR+ Pacing gain cycle values
+   */
+  const static double PACING_GAIN_CYCLE_HSR [];
+
+  /**
    * \brief Get the type ID.
    * \return the object TypeId
    */
@@ -83,7 +88,7 @@ public:
     BBR,
     BBR_PRIME,
     BBR_PLUS,
-    BBR_HR,
+    BBR_HSR,
     BBR_V2,
     BBR_DELAY
   } BbrVar;
@@ -372,6 +377,7 @@ private:
   bool        m_isInitialized               {false};             //!< Set to true after first time initializtion variables
   Ptr<UniformRandomVariable> m_uv           {nullptr};           //!< Uniform Random Variable
   BbrVar      m_variant                     {BbrVar::BBR};       //!< Variant of BBR
+  uint32_t    m_lambda                      {1/8};               //!< The constant parameter to trade off between RTT and bandwidth in BBR+
 };
 
 } // namespace ns3

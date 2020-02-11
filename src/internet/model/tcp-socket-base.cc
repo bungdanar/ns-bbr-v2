@@ -265,6 +265,7 @@ TcpSocketState::TcpSocketState (const TcpSocketState &other)
     m_currentPacingRate (other.m_currentPacingRate),
     m_minRtt (other.m_minRtt),
     m_lastRtt (other.m_lastRtt),
+    m_rttVar (other.m_rttVar),
     m_bytesInFlight (other.m_bytesInFlight),
     m_priorInFlight (other.m_priorInFlight),
     m_delivered (other.m_delivered),
@@ -3170,6 +3171,7 @@ TcpSocketBase::EstimateRtt (const TcpHeader& tcpHeader)
       m_lastRtt = m_rtt->GetEstimate ();
       m_tcb->m_minRtt = m_lastRtt.Get () < m_tcb->m_minRtt ? m_lastRtt.Get () : m_tcb->m_minRtt;
       m_tcb->m_lastRtt = m_lastRtt.Get ();
+      m_tcb->m_rttVar = m_rtt->GetVariation ();
       NS_LOG_FUNCTION (this << m_lastRtt << m_tcb->m_minRtt);
     }
 }

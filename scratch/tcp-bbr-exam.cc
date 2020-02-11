@@ -145,6 +145,26 @@ TraceInFlight (std::string &in_flight_file_name)
   Config::ConnectWithoutContext ("/NodeList/2/$ns3::TcpL4Protocol/SocketList/0/BytesInFlight", MakeCallback (&InFlightTracer));
 }
 
+static std::string
+WhichVariant (TcpBbr::BbrVar variant)
+{
+  switch (variant)
+    {
+    case 0:
+      return "BBR";
+    case 1:
+      return "BBR_PRIME";
+    case 2:
+      return "BBR_PLUS";
+    case 3:
+      return "BBR_HSR";
+    case 4:
+      return "BBR_V2";
+    case 5:
+      return "BBR_DELAY";
+    }
+  NS_ASSERT (false);
+}
 
 int main (int argc, char *argv[])
 {
@@ -152,17 +172,18 @@ int main (int argc, char *argv[])
   uint32_t initialCwnd = 10;
   double error_p = 0.00;
   uint32_t size  = 3;
-  uint32_t    nLeaf = 1; // If non-zero, number of both left and right
+  uint32_t    nLeaf = 3; // If non-zero, number of both left and right
   double start_time = 0.01;
   double stop_time = 100;
-  double data_mbytes = 0;
+  double data_mbytes = 1;
   uint32_t mtu_bytes = 536;
   std::string bandwidth = "10Mbps";
   std::string delay = "18ms";
   std::string access_bandwidth = "40Mbps";
   std::string access_delay = "1ms";
   std::string transport_prot = "TcpBbr";
-
+  TcpBbr::BbrVar variant = TcpBbr::BBR_HSR;
+  std::string varstr = WhichVariant (variant);
   std::string scenario = "1";
 
  time_t rawtime;
@@ -237,7 +258,8 @@ int main (int argc, char *argv[])
       TypeId tcpTid;
       NS_ABORT_MSG_UNLESS (TypeId::LookupByNameFailSafe (transport_prot, &tcpTid), "TypeId " << transport_prot << " not found");
       Config::SetDefault ("ns3::TcpL4Protocol::SocketType", TypeIdValue (TypeId::LookupByName (transport_prot)));
-      Config::SetDefault ("ns3::TcpBbr::BBRVariant", EnumValue (TcpBbr::BBR_PRIME));
+      Config::SetDefault ("ns3::TcpBbr::BBRVariant", EnumValue (variant));
+      Config::SetDefault ("ns3::TcpBbr::RTPropLambda", UintegerValue (1/2));
     }
 
   Ptr<UniformRandomVariable> uv = CreateObject<UniformRandomVariable> ();
@@ -316,7 +338,7 @@ int main (int argc, char *argv[])
   // Set up the acutal simulation
   Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
 
-  std::string dir = "results/" + transport_prot.substr(5, transport_prot.length()) + "/" + currentTime + "/";
+  std::string dir = "results/" + transport_prot.substr(5, transport_prot.length()) + "/" + currentTime + "-" + varstr + "/";
   std::string dirToSave = "mkdir -p " + dir;
   system (dirToSave.c_str ());
   Simulator::Schedule (Seconds (start_time + 0.000001), &TraceCwnd, dir + "cwnd.data");
