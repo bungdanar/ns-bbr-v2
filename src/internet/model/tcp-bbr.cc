@@ -30,6 +30,7 @@ NS_LOG_COMPONENT_DEFINE ("TcpBbr");
 NS_OBJECT_ENSURE_REGISTERED (TcpBbr);
 
 const double TcpBbr::PACING_GAIN_CYCLE [] = {5.0 / 4, 3.0 / 4, 1, 1, 1, 1, 1, 1};
+const double TcpBbr::PACING_GAIN_CYCLE_HSR [] = {3.0 / 2, 0.5, 3.0 /2, 0.5, 3.0 / 2, 0.5, 3.0 / 2, 0.5};
 
 TypeId
 TcpBbr::GetTypeId (void)
@@ -65,9 +66,14 @@ TcpBbr::GetTypeId (void)
                    MakeEnumChecker (TcpBbr::BBR, "BBR",
                                     TcpBbr::BBR_PRIME, "BBR Prime",
                                     TcpBbr::BBR_PLUS, "BBR Plus",
-                                    TcpBbr::BBR_HR, "BBR+",
+                                    TcpBbr::BBR_HSR, "BBR+",
                                     TcpBbr::BBR_DELAY, "Delay-BBR",
                                     TcpBbr::BBR_V2, "BBR V2"))
+    .AddAttribute ("RTPropLambda",
+                   "Value of lambda to use for BBR+ RtProp estimation",
+                   UintegerValue (1/8),
+                   MakeUintegerAccessor (&TcpBbr::m_lambda),
+                   MakeUintegerChecker<uint32_t> ())
   ;
   return tid;
 }
@@ -208,7 +214,14 @@ TcpBbr::AdvanceCyclePhase ()
   NS_LOG_FUNCTION (this);
   m_cycleStamp = Simulator::Now ();
   m_cycleIndex = (m_cycleIndex + 1) % GAIN_CYCLE_LENGTH;
-  m_pacingGain = PACING_GAIN_CYCLE [m_cycleIndex];
+  if (m_variant == TcpBbr::BBR_HSR) 
+    {
+      m_pacingGain = PACING_GAIN_CYCLE_HSR [m_cycleIndex];
+    }
+  else
+    {
+      m_pacingGain = PACING_GAIN_CYCLE [m_cycleIndex];
+    }  
 }
 
 bool
@@ -318,7 +331,15 @@ TcpBbr::UpdateRTprop (Ptr<TcpSocketState> tcb)
   m_rtPropExpired = Simulator::Now () > (m_rtPropStamp + m_rtPropFilterLen);
   if (tcb->m_lastRtt >= Seconds (0) && (tcb->m_lastRtt <= m_rtProp || m_rtPropExpired))
     {
-      m_rtProp = tcb->m_lastRtt;
+      if (m_variant == TcpBbr::BBR_HSR)
+        {
+          double rttVar = sqrt((tcb->m_rttVar).GetDouble ());
+          m_rtProp = tcb->m_lastRtt + m_lambda * MilliSeconds (rttVar);
+        }
+      else 
+        {
+          m_rtProp = tcb->m_lastRtt;
+        }
       m_rtPropStamp = Simulator::Now ();
     }
 }

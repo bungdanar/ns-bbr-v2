@@ -220,6 +220,7 @@ public:
 
   Time                   m_minRtt  {Time::Max ()};   //!< Minimum RTT observed throughout the connection
   Time                   m_lastRtt {Time::Max ()};   //!< Last RTT observed
+  Time                   m_rttVar  {Time::Max ()};   //!< Variation in RTT
   uint32_t               m_bytesInFlight     {0};    //!< Bytes in flight
   uint32_t               m_priorInFlight     {0};    //!< Prior Bytes in flight
 
