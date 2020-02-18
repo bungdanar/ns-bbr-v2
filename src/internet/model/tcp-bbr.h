@@ -93,6 +93,14 @@ public:
     BBR_DELAY
   } BbrVar;
 
+  // ProbeBW Pacing Gain Phase Indexes
+  typedef enum
+  {
+    BBR_BW_PROBE_UP = 0,
+    BBR_BW_PROBE_DOWN = 1,
+    BBR_BW_PROBE_CRUISE = 2
+  } BbrBwPhase;
+
   /**
    * Assign a fixed random variable stream number to the random variables
    * used by this model.  Return the number of streams (possibly zero) that
@@ -345,6 +353,19 @@ protected:
    */
   void SetBbrVariant (BbrVar variant);
 
+  /**
+   * \brief Determines change in pacing gain (BBRPlus).
+   * \param tcb the socket state.
+   * \param rs rate sample.
+   */
+  void DrainToTargetCycling (Ptr<TcpSocketState> tcb, const struct RateSample * rs);
+
+  /**
+   * \brief Updates pacing gain (BBRPlus).
+   * \param index cycle index.
+   */
+  void SetCycleIndex (BbrBwPhase index);
+
 private:
   BbrMode_t   m_state        {BbrMode_t::BBR_STARTUP};           //!< Current state of BBR state machine
   MaxBandwidthFilter_t   m_maxBwFilter;                          //!< Maximum bandwidth filter
@@ -378,6 +399,8 @@ private:
   Ptr<UniformRandomVariable> m_uv           {nullptr};           //!< Uniform Random Variable
   BbrVar      m_variant                     {BbrVar::BBR};       //!< Variant of BBR
   uint32_t    m_lambda                      {1/8};               //!< The constant parameter to trade off between RTT and bandwidth in BBR+
+  uint32_t    m_cycle_len                   {0};                 //!< The cycle length for BBRPlus
+  uint32_t    m_cycle_rand                  {7};                 //!< Value to randomize the gain cycling phase for BBRPlus
 };
 
 } // namespace ns3
