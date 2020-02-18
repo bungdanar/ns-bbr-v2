@@ -258,7 +258,11 @@ void
 TcpBbr::CheckCyclePhase (Ptr<TcpSocketState> tcb, const struct RateSample * rs)
 {
   NS_LOG_FUNCTION (this << tcb << rs);
-  if (m_state == BbrMode_t::BBR_PROBE_BW && IsNextCyclePhase (tcb, rs))
+  if (m_variant == TcpBbr::BBR_PLUS)
+    {
+      DrainToTargetCycling (tcb, rs);
+    }
+  else if (m_state == BbrMode_t::BBR_PROBE_BW && IsNextCyclePhase (tcb, rs))
     {
       AdvanceCyclePhase ();
     }
@@ -723,6 +727,52 @@ TcpBbr::SetBbrVariant (BbrVar variant)
 {
   NS_LOG_FUNCTION (this << variant);
   m_variant = variant;
+}
+
+void
+TcpBbr::DrainToTargetCycling (Ptr<TcpSocketState> tcb, const struct RateSample *rs)
+{
+  NS_LOG_FUNCTION (this << tcb << rs);
+  if (m_state != BBR_PROBE_BW)
+    {
+      return;
+    }
+  
+  if ((Simulator::Now () - m_cycleStamp) > m_cycle_len * m_rtProp)
+    {
+      m_cycleStamp = Simulator::Now ();
+      m_cycle_len = GAIN_CYCLE_LENGTH - (int) m_uv->GetValue (0, m_cycle_rand);
+      SetCycleIndex (BBR_BW_PROBE_UP);
+      return;
+    }
+
+  if (m_pacingGain == PACING_GAIN_CYCLE[BBR_BW_PROBE_CRUISE])
+    {
+      return;
+    }
+
+  if (m_pacingGain < PACING_GAIN_CYCLE[BBR_BW_PROBE_CRUISE])
+    {
+      if (tcb->m_priorInFlight <= InFlight (tcb, 1))
+        {
+          SetCycleIndex (BBR_BW_PROBE_CRUISE);
+        }
+      return;
+    }
+  if ((Simulator::Now () - m_cycleStamp) > m_rtProp && ((tcb->m_priorInFlight <= InFlight (tcb, m_pacingGain)) || 
+        rs->m_packetLoss > 0 || rs->m_isAppLimited))
+    {
+      SetCycleIndex (BBR_BW_PROBE_DOWN);
+      return;
+    }
+}
+
+void
+TcpBbr::SetCycleIndex (BbrBwPhase index)
+{
+  NS_LOG_FUNCTION (this << index);
+  m_cycleIndex = index;
+  m_pacingGain = PACING_GAIN_CYCLE [m_cycleIndex];
 }
 
 uint32_t
