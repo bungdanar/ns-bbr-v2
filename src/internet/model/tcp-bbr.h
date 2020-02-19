@@ -399,8 +399,8 @@ private:
   Ptr<UniformRandomVariable> m_uv           {nullptr};           //!< Uniform Random Variable
   BbrVar      m_variant                     {BbrVar::BBR};       //!< Variant of BBR
   uint32_t    m_lambda                      {1/8};               //!< The constant parameter to trade off between RTT and bandwidth in BBR+
-  uint32_t    m_cycle_len                   {0};                 //!< The cycle length for BBRPlus
-  uint32_t    m_cycle_rand                  {7};                 //!< Value to randomize the gain cycling phase for BBRPlus
+  uint32_t    m_cycleLength                 {0};                 //!< The cycle length for BBRPlus
+  uint32_t    m_cycleRand                   {7};                 //!< Value to randomize the gain cycling phase for BBRPlus
 };
 
 } // namespace ns3
