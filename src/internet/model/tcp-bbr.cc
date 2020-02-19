@@ -258,7 +258,7 @@ void
 TcpBbr::CheckCyclePhase (Ptr<TcpSocketState> tcb, const struct RateSample * rs)
 {
   NS_LOG_FUNCTION (this << tcb << rs);
-  if (m_variant == TcpBbr::BBR_PLUS)
+  if (m_state == BbrMode_t::BBR_PROBE_BW && m_variant == TcpBbr::BBR_PLUS)
     {
       DrainToTargetCycling (tcb, rs);
     }
@@ -746,12 +746,12 @@ TcpBbr::DrainToTargetCycling (Ptr<TcpSocketState> tcb, const struct RateSample *
       return;
     }
 
-  if (m_pacingGain == PACING_GAIN_CYCLE[BBR_BW_PROBE_CRUISE])
+  if (m_pacingGain == PACING_GAIN_CYCLE [BBR_BW_PROBE_CRUISE])
     {
       return;
     }
 
-  if (m_pacingGain < PACING_GAIN_CYCLE[BBR_BW_PROBE_CRUISE])
+  if (m_pacingGain < PACING_GAIN_CYCLE [BBR_BW_PROBE_CRUISE])
     {
       if (tcb->m_priorInFlight <= InFlight (tcb, 1))
         {
