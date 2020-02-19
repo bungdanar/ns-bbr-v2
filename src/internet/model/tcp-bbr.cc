@@ -63,12 +63,12 @@ TcpBbr::GetTypeId (void)
                    "Variant of BBR to use",
                    EnumValue (TcpBbr::BBR),
                    MakeEnumAccessor (&TcpBbr::m_variant),
-                   MakeEnumChecker (TcpBbr::BBR, "BBR",
-                                    TcpBbr::BBR_PRIME, "BBR Prime",
-                                    TcpBbr::BBR_PLUS, "BBR Plus",
-                                    TcpBbr::BBR_HSR, "BBR+",
-                                    TcpBbr::BBR_DELAY, "Delay-BBR",
-                                    TcpBbr::BBR_V2, "BBR V2"))
+                   MakeEnumChecker (BbrVar::BBR, "BBR",
+                                    BbrVar::BBR_PRIME, "BBR Prime",
+                                    BbrVar::BBR_PLUS, "BBR Plus",
+                                    BbrVar::BBR_HSR, "BBR+",
+                                    BbrVar::BBR_DELAY, "Delay-BBR",
+                                    BbrVar::BBR_V2, "BBR V2"))
     .AddAttribute ("RTPropLambda",
                    "Value of lambda to use for BBR+ RtProp estimation",
                    UintegerValue (1/8),
@@ -214,7 +214,7 @@ TcpBbr::AdvanceCyclePhase ()
   NS_LOG_FUNCTION (this);
   m_cycleStamp = Simulator::Now ();
   m_cycleIndex = (m_cycleIndex + 1) % GAIN_CYCLE_LENGTH;
-  if (m_variant == TcpBbr::BBR_HSR) 
+  if (m_variant == BbrVar::BBR_HSR) 
     {
       m_pacingGain = PACING_GAIN_CYCLE_HSR [m_cycleIndex];
     }
@@ -239,11 +239,11 @@ TcpBbr::IsNextCyclePhase (Ptr<TcpSocketState> tcb, const struct RateSample * rs)
     }
   else
     {
-      if (m_variant == TcpBbr::BBR)
+      if (m_variant == BbrVar::BBR)
         {
           return isFullLength;
         }
-      else if (m_variant == TcpBbr::BBR_PRIME)
+      else if (m_variant == BbrVar::BBR_PRIME)
         {              
           return tcb->m_priorInFlight <= InFlight (tcb, 1);
         }
@@ -258,7 +258,7 @@ void
 TcpBbr::CheckCyclePhase (Ptr<TcpSocketState> tcb, const struct RateSample * rs)
 {
   NS_LOG_FUNCTION (this << tcb << rs);
-  if (m_state == BbrMode_t::BBR_PROBE_BW && m_variant == TcpBbr::BBR_PLUS)
+  if (m_state == BbrMode_t::BBR_PROBE_BW && m_variant == BbrVar::BBR_PLUS)
     {
       DrainToTargetCycling (tcb, rs);
     }
@@ -335,7 +335,7 @@ TcpBbr::UpdateRTprop (Ptr<TcpSocketState> tcb)
   m_rtPropExpired = Simulator::Now () > (m_rtPropStamp + m_rtPropFilterLen);
   if (tcb->m_lastRtt >= Seconds (0) && (tcb->m_lastRtt <= m_rtProp || m_rtPropExpired))
     {
-      if (m_variant == TcpBbr::BBR_HSR)
+      if (m_variant == BbrVar::BBR_HSR)
         {
           double rttVar = sqrt((tcb->m_rttVar).GetDouble ());
           m_rtProp = tcb->m_lastRtt + m_lambda * MilliSeconds (rttVar);
@@ -733,7 +733,7 @@ void
 TcpBbr::DrainToTargetCycling (Ptr<TcpSocketState> tcb, const struct RateSample *rs)
 {
   NS_LOG_FUNCTION (this << tcb << rs);
-  if (m_state != BBR_PROBE_BW)
+  if (m_state != BbrMode_t::BBR_PROBE_BW)
     {
       return;
     }
@@ -742,27 +742,27 @@ TcpBbr::DrainToTargetCycling (Ptr<TcpSocketState> tcb, const struct RateSample *
     {
       m_cycleStamp = Simulator::Now ();
       m_cycleLength = GAIN_CYCLE_LENGTH - (int) m_uv->GetValue (0, m_cycleRand);
-      SetCycleIndex (BBR_BW_PROBE_UP);
+      SetCycleIndex (BbrBwPhase::BBR_BW_PROBE_UP);
       return;
     }
 
-  if (m_pacingGain == PACING_GAIN_CYCLE [BBR_BW_PROBE_CRUISE])
+  if (m_pacingGain == PACING_GAIN_CYCLE [BbrBwPhase::BBR_BW_PROBE_CRUISE])
     {
       return;
     }
 
-  if (m_pacingGain < PACING_GAIN_CYCLE [BBR_BW_PROBE_CRUISE])
+  if (m_pacingGain < PACING_GAIN_CYCLE [BbrBwPhase::BBR_BW_PROBE_CRUISE])
     {
       if (tcb->m_priorInFlight <= InFlight (tcb, 1))
         {
-          SetCycleIndex (BBR_BW_PROBE_CRUISE);
+          SetCycleIndex (BbrBwPhase::BBR_BW_PROBE_CRUISE);
         }
       return;
     }
   if ((Simulator::Now () - m_cycleStamp) > m_rtProp && ((tcb->m_priorInFlight <= InFlight (tcb, m_pacingGain)) || 
         rs->m_packetLoss > 0 || rs->m_isAppLimited))
     {
-      SetCycleIndex (BBR_BW_PROBE_DOWN);
+      SetCycleIndex (BbrBwPhase::BBR_BW_PROBE_DOWN);
       return;
     }
 }
