@@ -738,10 +738,10 @@ TcpBbr::DrainToTargetCycling (Ptr<TcpSocketState> tcb, const struct RateSample *
       return;
     }
   
-  if ((Simulator::Now () - m_cycleStamp) > m_cycle_len * m_rtProp)
+  if ((Simulator::Now () - m_cycleStamp) > m_cycleLength * m_rtProp)
     {
       m_cycleStamp = Simulator::Now ();
-      m_cycle_len = GAIN_CYCLE_LENGTH - (int) m_uv->GetValue (0, m_cycle_rand);
+      m_cycleLength = GAIN_CYCLE_LENGTH - (int) m_uv->GetValue (0, m_cycleRand);
       SetCycleIndex (BBR_BW_PROBE_UP);
       return;
     }
