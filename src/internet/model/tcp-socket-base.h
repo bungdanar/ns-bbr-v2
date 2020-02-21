@@ -204,6 +204,7 @@ public:
   // Segment
   uint32_t               m_segmentSize   {0}; //!< Segment size
   SequenceNumber32       m_lastAckedSeq  {0}; //!< Last sequence ACKed
+  SequenceNumber32       m_lastSentSeq   {0}; //!< Last sequence Sent
 
   TracedValue<TcpCongState_t> m_congState {CA_OPEN}; //!< State in the Congestion state machine
 

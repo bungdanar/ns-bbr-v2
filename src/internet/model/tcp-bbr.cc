@@ -31,6 +31,7 @@ NS_OBJECT_ENSURE_REGISTERED (TcpBbr);
 
 const double TcpBbr::PACING_GAIN_CYCLE [] = {5.0 / 4, 3.0 / 4, 1, 1, 1, 1, 1, 1};
 const double TcpBbr::PACING_GAIN_CYCLE_HSR [] = {3.0 / 2, 0.5, 3.0 /2, 0.5, 3.0 / 2, 0.5, 3.0 / 2, 0.5};
+const double TcpBbr::PACING_GAIN_CYCLE_DELAY [] = {1.11, 0.9, 1, 1, 1, 1, 1, 1};
 
 TypeId
 TcpBbr::GetTypeId (void)
@@ -218,6 +219,10 @@ TcpBbr::AdvanceCyclePhase ()
     {
       m_pacingGain = PACING_GAIN_CYCLE_HSR [m_cycleIndex];
     }
+  else if (m_variant == TcpBbr::BBR_DELAY)
+    {
+      m_pacingGain = PACING_GAIN_CYCLE_DELAY [m_cycleIndex];
+    }
   else
     {
       m_pacingGain = PACING_GAIN_CYCLE [m_cycleIndex];
@@ -325,6 +330,7 @@ TcpBbr::CheckDrain (Ptr<TcpSocketState> tcb)
   if (m_state == BbrMode_t::BBR_DRAIN && tcb->m_bytesInFlight <= InFlight (tcb, 1))
     {
       EnterProbeBW ();
+      m_sentPacketNum = tcb->m_lastSentSeq;
     }
 }
 
@@ -353,7 +359,14 @@ TcpBbr::EnterProbeRTT ()
 {
   NS_LOG_FUNCTION (this);
   SetBbrState (BbrMode_t::BBR_PROBE_RTT);
-  m_pacingGain = 1;
+  if (m_congestionDelay)
+    {
+      m_pacingGain = 0.75;
+    }
+  else 
+    {
+      m_pacingGain = 1;
+    }
   m_cWndGain = 1;
 }
 
@@ -413,6 +426,8 @@ TcpBbr::HandleProbeRTT (Ptr<TcpSocketState> tcb)
       if (m_probeRttRoundDone && Simulator::Now () > m_probeRttDoneStamp)
         {
           m_rtPropStamp = Simulator::Now ();
+          m_baseRtt = Time::Max ();
+          m_srtt = Seconds (0);
           RestoreCwnd (tcb);
           ExitProbeRTT ();
         }
@@ -424,7 +439,7 @@ TcpBbr::CheckProbeRTT (Ptr<TcpSocketState> tcb)
 {
   NS_LOG_FUNCTION (this << tcb);
   NS_LOG_DEBUG (Simulator::Now () << "WhichState " << WhichState (m_state) << " m_rtPropExpired " << m_rtPropExpired << " !m_idleRestart " << !m_idleRestart);
-  if (m_state != BbrMode_t::BBR_PROBE_RTT && m_rtPropExpired && !m_idleRestart)
+  if (m_state != BbrMode_t::BBR_PROBE_RTT && (m_rtPropExpired || m_congestionDelay) && !m_idleRestart)
     {
       EnterProbeRTT ();
       SaveCwnd (tcb);
@@ -560,6 +575,10 @@ TcpBbr::UpdateModelAndState (Ptr<TcpSocketState> tcb, const struct RateSample * 
 {
   NS_LOG_FUNCTION (this << tcb << rs);
   UpdateBtlBw (tcb, rs);
+  if (m_variant == BbrVar::BBR_DELAY)
+    {
+      CheckCongestionDelay (tcb);
+    }
   CheckCyclePhase (tcb, rs);
   CheckFullPipe (rs);
   CheckDrain (tcb);
@@ -773,6 +792,44 @@ TcpBbr::SetCycleIndex (BbrBwPhase index)
   NS_LOG_FUNCTION (this << index);
   m_cycleIndex = index;
   m_pacingGain = PACING_GAIN_CYCLE [m_cycleIndex];
+}
+
+void
+TcpBbr::CheckCongestionDelay (Ptr<TcpSocketState> tcb)
+{
+  NS_LOG_FUNCTION (this << tcb);
+  if (m_state == BbrMode_t::BBR_PROBE_BW && tcb->m_lastAckedSeq > m_sentPacketNum)
+    {
+      if (m_baseRtt != Time::Max ())
+        {
+          int64_t m_old_srtt = m_srtt.GetMilliSeconds ();
+          int64_t m_new_rtt = tcb->m_lastRtt.GetMilliSeconds ();
+          int64_t m_new_srtt = (1-m_alphaSrtt) * m_old_srtt + m_alphaSrtt * m_new_rtt;
+          m_srtt = MilliSeconds (m_new_srtt);
+
+          if (m_srtt < m_baseRtt)
+            {
+              m_baseRtt = m_srtt;
+            }
+          else 
+            {
+              m_srtt = tcb->m_lastRtt;
+              m_baseRtt = m_srtt;
+            }
+        }
+
+      if (m_baseRtt != Time::Max ())
+        {
+          if (m_state == BbrMode_t::BBR_PROBE_BW)
+            {
+              if (m_srtt > (m_baseRtt * m_beta))
+                {
+                  m_congestionDelay = true;
+                  m_sentPacketNum = tcb->m_lastSentSeq;
+                }
+            }
+        }
+    }
 }
 
 uint32_t
