@@ -362,12 +362,13 @@ TcpBbr::EnterProbeRTT ()
   if (m_congestionDelay)
     {
       m_pacingGain = 0.75;
+      m_cWndGain = 0.75;
     }
   else 
     {
       m_pacingGain = 1;
+      m_cWndGain = 1;
     }
-  m_cWndGain = 1;
 }
 
 void
@@ -411,7 +412,9 @@ TcpBbr::HandleProbeRTT (Ptr<TcpSocketState> tcb)
   NS_LOG_FUNCTION (this << tcb);
   tcb->m_appLimited = (tcb->m_delivered + tcb->m_bytesInFlight) ? : 1;
 
-  if (m_probeRttDoneStamp == Seconds (0) && tcb->m_bytesInFlight <= m_minPipeCwnd)
+  if (m_probeRttDoneStamp == Seconds (0) && 
+  ((tcb->m_bytesInFlight <= m_minPipeCwnd && m_variant != BbrVar::BBR_DELAY) 
+  || (tcb->m_bytesInFlight <= InFlight (tcb, 0.75) && m_variant == BbrVar::BBR_DELAY)))
     {
       m_probeRttDoneStamp = Simulator::Now () + m_probeRttDuration;
       m_probeRttRoundDone = false;
@@ -503,7 +506,14 @@ TcpBbr::ModulateCwndForProbeRTT (Ptr<TcpSocketState> tcb)
   NS_LOG_FUNCTION (this << tcb);
   if (m_state == BbrMode_t::BBR_PROBE_RTT)
     {
-      tcb->m_cWnd = std::min (tcb->m_cWnd.Get (), m_minPipeCwnd);
+      if (m_variant == BbrVar::BBR_DELAY)
+        {
+          tcb->m_cWnd = InFlight (tcb, 0.75);
+        }
+      else
+        {
+          tcb->m_cWnd = std::min (tcb->m_cWnd.Get (), m_minPipeCwnd);
+        }
     }
 }
 
@@ -804,31 +814,24 @@ TcpBbr::CheckCongestionDelay (Ptr<TcpSocketState> tcb)
         {
           int64_t m_old_srtt = m_srtt.GetMilliSeconds ();
           int64_t m_new_rtt = tcb->m_lastRtt.GetMilliSeconds ();
-          int64_t m_new_srtt = (1-m_alphaSrtt) * m_old_srtt + m_alphaSrtt * m_new_rtt;
+          int64_t m_new_srtt = (1 - m_alphaSrtt) * m_old_srtt + m_alphaSrtt * m_new_rtt;
           m_srtt = MilliSeconds (m_new_srtt);
 
           if (m_srtt < m_baseRtt)
             {
-              m_baseRtt = m_srtt;
-            }
-          else 
-            {
-              m_srtt = tcb->m_lastRtt;
-              m_baseRtt = m_srtt;
+              m_baseRtt = m_srtt; 
             }
         }
-
-      if (m_baseRtt != Time::Max ())
+      else 
         {
-          if (m_state == BbrMode_t::BBR_PROBE_BW)
-            {
-              if (m_srtt > (m_baseRtt * m_beta))
-                {
-                  m_congestionDelay = true;
-                  m_sentPacketNum = tcb->m_lastSentSeq;
-                }
-            }
+          m_srtt = tcb->m_lastRtt;
+          m_baseRtt = m_srtt;
         }
+    }
+  if (m_baseRtt != Time::Max () && m_state == BbrMode_t::BBR_PROBE_BW && m_srtt > (m_baseRtt * m_beta))
+    {
+      m_congestionDelay = true;
+      m_sentPacketNum = tcb->m_lastSentSeq;
     }
 }
 

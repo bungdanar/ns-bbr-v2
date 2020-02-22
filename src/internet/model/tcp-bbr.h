@@ -413,7 +413,7 @@ private:
   uint32_t    m_cycleLength                 {0};                 //!< The cycle length for BBRPlus
   uint32_t    m_cycleRand                   {7};                 //!< Value to randomize the gain cycling phase for BBRPlus
   Time        m_srtt                        {Seconds (0)};       //!< Smoothed Round Trip Time Signal (Delay-BBR)
-  Time        m_baseRtt                     {Time::Max()};       //!< The base line Round Trip Time during the ProbeBW Phase (Delay-BBR)
+  Time        m_baseRtt                     {Time::Max ()};      //!< The base line Round Trip Time during the ProbeBW Phase (Delay-BBR)
   bool        m_congestionDelay             {false};             //!< A boolean to indicate congestion for Delay-BBR
   double      m_alphaSrtt                   {0.9};               //!< The alpha value for calculating the smoother round trip time (Delay-BBR)
   double      m_beta                        {1.2};               //!< The Beta value for congestion check for Delay-BBR
