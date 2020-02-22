@@ -255,6 +255,7 @@ TcpSocketState::TcpSocketState (const TcpSocketState &other)
     m_initialSsThresh (other.m_initialSsThresh),
     m_segmentSize (other.m_segmentSize),
     m_lastAckedSeq (other.m_lastAckedSeq),
+    m_lastSentSeq (other.m_lastSentSeq),
     m_congState (other.m_congState),
     m_highTxMark (other.m_highTxMark),
     m_nextTxSequence (other.m_nextTxSequence),
@@ -820,6 +821,7 @@ TcpSocketBase::Send (Ptr<Packet> p, uint32_t flags)
                                                             this, m_connected);
             }
         }
+      m_tcb->m_lastSentSeq = m_txBuffer->HeadSequence ();
       return p->GetSize ();
     }
   else

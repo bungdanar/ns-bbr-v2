@@ -172,7 +172,7 @@ int main (int argc, char *argv[])
   uint32_t initialCwnd = 10;
   double error_p = 0.00;
   uint32_t size  = 3;
-  uint32_t    nLeaf = 3; // If non-zero, number of both left and right
+  uint32_t    nLeaf = 2; // If non-zero, number of both left and right
   double start_time = 0.01;
   double stop_time = 100;
   double data_mbytes = 1;
@@ -182,7 +182,7 @@ int main (int argc, char *argv[])
   std::string access_bandwidth = "40Mbps";
   std::string access_delay = "1ms";
   std::string transport_prot = "TcpBbr";
-  TcpBbr::BbrVar variant = TcpBbr::BBR_PLUS;
+  TcpBbr::BbrVar variant = TcpBbr::BBR_DELAY;
   std::string varstr = WhichVariant (variant);
   std::string scenario = "1";
 

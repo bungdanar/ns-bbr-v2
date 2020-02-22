@@ -51,6 +51,11 @@ public:
   const static double PACING_GAIN_CYCLE_HSR [];
 
   /**
+   * \brief Delay-BBR Pacing gain cycle value
+   */
+  const static double PACING_GAIN_CYCLE_DELAY [];
+
+  /**
    * \brief Get the type ID.
    * \return the object TypeId
    */
@@ -366,6 +371,12 @@ protected:
    */
   void SetCycleIndex (BbrBwPhase index);
 
+  /**
+   * \brief Checks for the congestion delay signal (Delay-BBR)
+   * \param tcb the socket state
+   */
+  void CheckCongestionDelay (Ptr<TcpSocketState> tcb);
+
 private:
   BbrMode_t   m_state        {BbrMode_t::BBR_STARTUP};           //!< Current state of BBR state machine
   MaxBandwidthFilter_t   m_maxBwFilter;                          //!< Maximum bandwidth filter
@@ -401,6 +412,12 @@ private:
   uint32_t    m_lambda                      {1/8};               //!< The constant parameter to trade off between RTT and bandwidth in BBR+
   uint32_t    m_cycleLength                 {0};                 //!< The cycle length for BBRPlus
   uint32_t    m_cycleRand                   {7};                 //!< Value to randomize the gain cycling phase for BBRPlus
+  Time        m_srtt                        {Seconds (0)};       //!< Smoothed Round Trip Time Signal (Delay-BBR)
+  Time        m_baseRtt                     {Time::Max ()};      //!< The base line Round Trip Time during the ProbeBW Phase (Delay-BBR)
+  bool        m_congestionDelay             {false};             //!< A boolean to indicate congestion for Delay-BBR
+  double      m_alphaSrtt                   {0.9};               //!< The alpha value for calculating the smoother round trip time (Delay-BBR)
+  double      m_beta                        {1.2};               //!< The Beta value for congestion check for Delay-BBR
+  SequenceNumber32  m_sentPacketNum         {1};                 //!< The Sequence number of the most recent sent packet (Delay-BBR)
 };
 
 } // namespace ns3
