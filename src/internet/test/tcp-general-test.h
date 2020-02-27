@@ -627,6 +627,14 @@ protected:
   void SetMTU (uint32_t mtu) { m_mtu = mtu; }
 
   /**
+   * \brief Forcefully set the ecn mode on
+   * 
+   * \param who socket to force
+   * \param ecnMode Mode of ECN. Currently NoEcn and ClassicEcn is supported.
+   */
+  void SetEcn (SocketWho who, TcpSocketBase::EcnMode_t ecnMode);
+
+  /**
    * \brief State on Ack state machine changes
    * \param oldValue old value
    * \param newValue new value
