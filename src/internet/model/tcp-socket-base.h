@@ -98,7 +98,9 @@ struct RateSample
   uint32_t      m_isAppLimited;   //!< Indicates whether the rate sample is application-limited
   Time          m_interval;       //!< The length of the sampling interval
   uint32_t      m_delivered;      //!< The amount of data marked as delivered over the sampling interval
+  uint32_t      m_deliveredEce;   //!< The amount of data marked as delivered with an ECN mark over the sampling interval
   uint32_t      m_priorDelivered; //!< The delivered count of the most recent packet delivered
+  uint32_t      m_priorDeliveredEce; //!< The delivered count of the most recent packet with ECN mark delivered
   Time          m_priorTime;      //!< The delivered time of the most recent packet delivered
   Time          m_sendElapsed;    //!< Send time interval calculated from the most recent packet delivered
   Time          m_ackElapsed;     //!< ACK time interval calculated from the most recent packet delivered
