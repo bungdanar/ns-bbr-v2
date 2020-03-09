@@ -646,6 +646,8 @@ TcpBbr::UpdateControlParameters (Ptr<TcpSocketState> tcb, const struct RateSampl
   if (m_variant == BbrVar::BBR_V2)
     {
       BoundCwndForInflightModel (tcb);
+      m_lossInCycle |= rs->m_packetLoss > 0;
+      m_ecnInCycle |= rs->m_deliveredEce > 0;
     }
 }
 
@@ -934,6 +936,8 @@ TcpBbr::ResetCongestionSignals ()
   NS_LOG_FUNCTION (this);
   m_lossInRound = 0;
   m_ecnInRound = 0;
+  m_lossInCycle = 0;
+  m_ecnInCycle = 0;
   m_bwLatest = 0;
   m_inflightLatest = 0;
 }

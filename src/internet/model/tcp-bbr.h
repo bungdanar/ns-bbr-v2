@@ -588,6 +588,8 @@ private:
   DataRate    m_bwLatest                    {std::numeric_limits<int>::max ()};                 //!< Latest measurement of the bw from the current round
   uint32_t    m_lossInRound                 {0};                 //!< The number of losses in the current round trip (BBRv2)
   uint32_t    m_ecnInRound                  {0};                 //!< The indicator for an ECN mark in the current round trip (BBRv2)
+  uint32_t    m_lossInCycle                 {0};                 //!< The number of losses in the current ProbeBW cycle (BBRv2)
+  uint32_t    m_ecnInCycle                  {0};                 //!< The indicator for an ECN mark in the current ProbeBW cycle (BBRv2)
   uint32_t    m_startupLossEvents           {0};                 //!< The number of loss events in the current round trip for Startup (BBRv2)
   uint32_t    m_lossRoundDelivered          {0};                 //!< The delivered at the end of a loss round (BBRv2)
   uint32_t    m_lossRoundStart              {0};                 //!< The indicator of having delivered at the end of a loss round (BBRv2)
