@@ -2,35 +2,34 @@ par(mfrow=c(3,3))
 ### Multi Flow Results
 ## 0.5BDP
 # 10ms 
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/10-04-2020-05-47-11-BBR10Mbps-10ms-0.500000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-10ms-0.5BDP")
-# # 40ms
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-06-41-33-BBR10Mbps-40ms-0.500000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-40ms-0.5BDP")
-# # 100ms
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-07-03-48-BBR10Mbps-100ms-0.500000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-100ms-0.5BDP")
-# ## 1.5BDP
-# # 10ms
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/10-04-2020-05-14-45-BBR10Mbps-10ms-1.500000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-10ms-1.5BDP")
-# # 40ms
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-06-48-30-BBR10Mbps-40ms-1.500000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-40ms-1.5BDP")
-# # 100ms
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-07-07-35-BBR10Mbps-100ms-1.500000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-100ms-1.5BDP")
-# ## 3BDP
-# # 10ms
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/10-04-2020-06-00-26-BBR10Mbps-10ms-3.000000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-10ms-3BDP")
-# # 40ms
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-06-55-52-BBR10Mbps-40ms-3.000000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-40ms-3BDP")
-# # 100ms
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-07-14-53-BBR10Mbps-100ms-3.000000/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-100ms-3BDP")
-
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/10-04-2020-05-47-11-BBR10Mbps-10ms-0.500000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-10ms-0.5BDP")
+# 40ms
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-06-41-33-BBR10Mbps-40ms-0.500000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-40ms-0.5BDP")
+# 100ms
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-07-03-48-BBR10Mbps-100ms-0.500000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-100ms-0.5BDP")
+## 1.5BDP
+# 10ms
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/10-04-2020-05-14-45-BBR10Mbps-10ms-1.500000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-10ms-1.5BDP")
+# 40ms
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-06-48-30-BBR10Mbps-40ms-1.500000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-40ms-1.5BDP")
+# 100ms
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-07-07-35-BBR10Mbps-100ms-1.500000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-100ms-1.5BDP")
+## 3BDP
+# 10ms
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/10-04-2020-06-00-26-BBR10Mbps-10ms-3.000000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-10ms-3BDP")
+# 40ms
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-06-55-52-BBR10Mbps-40ms-3.000000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-40ms-3BDP")
+# 100ms
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/12-04-2020-07-14-53-BBR10Mbps-100ms-3.000000/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "BBR-10Mbps-100ms-3BDP")
 
 
 Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/Multi Flow/10-04-2020-05-47-11-BBR10Mbps-10ms-0.500000/loss.data")

@@ -2,14 +2,14 @@ par(mfrow=c(3,1))
 ### Cubic results
 ## 10mbps
 # 10ms 1.5BDP
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-19-34-BBR_DELAY10Mbps-10ms-1.500000vsCubic/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "Delay-BBRvsCubic-10Mbps-10ms", panel.first = grid())
-# # 40ms 1.5BDP
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-28-27-BBR_DELAY10Mbps-40ms-1.500000vsCubic/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "Delay-BBRvsCubic-10Mbps-40ms", panel.first = grid())
-# # 100ms 1.5BDP
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-35-55-BBR_DELAY10Mbps-100ms-1.500000vsCubic/cwnd.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "Delay-BBRvsCubic-10Mbps-100ms", panel.first = grid())
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-19-34-BBR_DELAY10Mbps-10ms-1.500000vsCubic/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "Delay-BBRvsCubic-10Mbps-10ms", panel.first = grid())
+# 40ms 1.5BDP
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-28-27-BBR_DELAY10Mbps-40ms-1.500000vsCubic/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "Delay-BBRvsCubic-10Mbps-40ms", panel.first = grid())
+# 100ms 1.5BDP
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-35-55-BBR_DELAY10Mbps-100ms-1.500000vsCubic/cwnd.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "CWnd(B)", col = "blue", main = "Delay-BBRvsCubic-10Mbps-100ms", panel.first = grid())
 
 Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-19-34-BBR_DELAY10Mbps-10ms-1.500000vsCubic/delay.data")
 FlowOne <- data.frame(matrix(ncol=2, nrow=length(Data$V1[Data$V2 == 3])))

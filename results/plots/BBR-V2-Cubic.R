@@ -2,20 +2,20 @@ par(mfrow=c(3,2))
 ### Cubic results
 ## 10mbps
 # 10ms 1.5BDP
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-43-08-BBR_V210Mbps-10ms-1.500000vsCubic/rto.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2vsCubic-10Mbps-10ms", panel.first = grid())
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-08-14-08-BBR_V2-ECN10Mbps-10ms-1.500000vsCubic/rto.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2-ECNvsCubic-10Mbps-10ms", panel.first = grid())
-# # 40ms 1.5BDP
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-54-58-BBR_V210Mbps-40ms-1.500000vsCubic/rto.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2vsCubic-10Mbps-40ms", panel.first = grid())
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-08-23-16-BBR_V2-ECN10Mbps-40ms-1.500000vsCubic/rto.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2-ECNvsCubic-10Mbps-40ms", panel.first = grid())
-# # 100ms 1.5BDP
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-08-02-29-BBR_V210Mbps-100ms-1.500000vsCubic/rto.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2vsCubic-10Mbps-100ms", panel.first = grid())
-# Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-08-33-16-BBR_V2-ECN10Mbps-100ms-1.500000vsCubic/rto.data")
-# plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2-ECNvsCubic-10Mbps-100ms", panel.first = grid())
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-43-08-BBR_V210Mbps-10ms-1.500000vsCubic/rto.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2vsCubic-10Mbps-10ms", panel.first = grid())
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-08-14-08-BBR_V2-ECN10Mbps-10ms-1.500000vsCubic/rto.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2-ECNvsCubic-10Mbps-10ms", panel.first = grid())
+# 40ms 1.5BDP
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-54-58-BBR_V210Mbps-40ms-1.500000vsCubic/rto.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2vsCubic-10Mbps-40ms", panel.first = grid())
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-08-23-16-BBR_V2-ECN10Mbps-40ms-1.500000vsCubic/rto.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2-ECNvsCubic-10Mbps-40ms", panel.first = grid())
+# 100ms 1.5BDP
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-08-02-29-BBR_V210Mbps-100ms-1.500000vsCubic/rto.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2vsCubic-10Mbps-100ms", panel.first = grid())
+Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-08-33-16-BBR_V2-ECN10Mbps-100ms-1.500000vsCubic/rto.data")
+plot(Data$V1, Data$V2, type = "l", xlab = "Time(s)", ylab = "RTO(s)", col = "blue", main = "BBRv2-ECNvsCubic-10Mbps-100ms", panel.first = grid())
 
 Data <- read.table("~/Documents/BBRv2-Eval-ns-3/results/TcpBbr/OneFlowCubic/11-04-2020-07-43-08-BBR_V210Mbps-10ms-1.500000vsCubic/delay.data")
 FlowOne <- data.frame(matrix(ncol=2, nrow=length(Data$V1[Data$V2 == 3])))
