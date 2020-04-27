@@ -72,9 +72,9 @@ TcpBbr::GetTypeId (void)
                                     BbrVar::BBR_V2, "BBR V2"))
     .AddAttribute ("RTPropLambda",
                    "Value of lambda to use for BBR+ RtProp estimation",
-                   UintegerValue (1/8),
-                   MakeUintegerAccessor (&TcpBbr::m_lambda),
-                   MakeUintegerChecker<uint32_t> ())
+                   DoubleValue (1.0/8.0),
+                   MakeDoubleAccessor (&TcpBbr::m_lambda),
+                   MakeDoubleChecker<double> ())
     .AddAttribute ("EnableEcn",
                    "Whether to use Ecn or not",
                    BooleanValue (false),
@@ -1010,7 +1010,7 @@ TcpBbr::AdaptLowerBounds (Ptr<TcpSocketState> tcb)
       uint64_t m_bwLoTmp = m_bwLo.GetBitRate () * (1 - m_bbrBeta);
       DataRate m_bwLoRes (m_bwLoTmp);
       m_bwLo = std::max (m_bwLatest, m_bwLoRes);
-      m_inflightLo = std::max (m_inflightLatest, m_inflightLo * (1 - m_bbrBeta));
+      m_inflightLo = std::max<uint32_t> (m_inflightLatest, m_inflightLo * (1 - m_bbrBeta));
     }
 
     m_inflightLo = std::min (m_inflightLo, ecnInflightLo);
@@ -1162,7 +1162,7 @@ TcpBbr::HandleInflightTooHigh (Ptr<TcpSocketState> tcb, const struct RateSample 
   m_bwProbeSamples = 0;
   if (!rs->m_isAppLimited)
     {
-      m_inflightHi = std::max (tcb->m_bytesInFlight, TargetInflight () * (1 - m_bbrBeta));
+      m_inflightHi = std::max<uint32_t> (tcb->m_bytesInFlight, TargetInflight () * (1 - m_bbrBeta));
       if (m_enableExp)
         {
           HandleInflightTooHighEcn ();

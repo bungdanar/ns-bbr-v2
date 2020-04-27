@@ -576,7 +576,7 @@ private:
   bool        m_isInitialized               {false};             //!< Set to true after first time initializtion variables
   Ptr<UniformRandomVariable> m_uv           {nullptr};           //!< Uniform Random Variable
   BbrVar      m_variant                     {BbrVar::BBR};       //!< Variant of BBR
-  uint32_t    m_lambda                      {1/8};               //!< The constant parameter to trade off between RTT and bandwidth in BBR+
+  double      m_lambda                      {1.0/8.0};           //!< The constant parameter to trade off between RTT and bandwidth in BBR+
   uint32_t    m_cycleLength                 {0};                 //!< The cycle length for BBRPlus
   uint32_t    m_cycleRand                   {7};                 //!< Value to randomize the gain cycling phase for BBRPlus
   Time        m_srtt                        {Seconds (0)};       //!< Smoothed Round Trip Time Signal (Delay-BBR)
@@ -599,9 +599,9 @@ private:
   uint32_t    m_startupLossEvents           {0};                 //!< The number of loss events in the current round trip for Startup (BBRv2)
   uint32_t    m_lossRoundDelivered          {0};                 //!< The delivered at the end of a loss round (BBRv2)
   uint32_t    m_lossRoundStart              {0};                 //!< The indicator of having delivered at the end of a loss round (BBRv2)
-  uint32_t    m_bbrBeta                     {3/10};              //!< Factor used to scale down inflight and rate for losses (BBRv2)
+  double      m_bbrBeta                     {3/10};              //!< Factor used to scale down inflight and rate for losses (BBRv2)
   uint32_t    m_fullLossCount               {8};                 //!< The number of loss marking events in Startup, exits Startup after >= N (BBRv2)
-  uint32_t    m_lossThresh                  {2/100};             //!< Loss threshold for inflight data (BBRv2)
+  double      m_lossThresh                  {2/100};             //!< Loss threshold for inflight data (BBRv2)
   uint32_t    m_bwProbeMaxRounds            {63};                //!< Max number of rounds to wait before probing for bandwidth (BBRv2)
   uint32_t    m_bwProbeRandRounds           {2};                 //!< Max amount of randomness to inject in round counting (BBRv2)
   uint32_t    m_roundsSinceProbe            {0};                 //!< The number of rounds since probe (BBRv2)
@@ -612,12 +612,12 @@ private:
   uint32_t    m_bwProbeSamples              {0};                 //!< The number of of rate samples reflected by the probed bw (BBRv2)
   bool        m_isRiskyProbe                {false};             //!< Indicates if the last Probe Up was stopped due to any risk (BBRv2)
   bool        m_prevProbeTooHigh            {false};             //!< Indicates if the last Probe Up went too high (BBRv2)
-  uint32_t    m_inflightHeadroom            {15/100};            //!< The fraction of unutilised headroom to leave in path upon high loss (BBRv2)
+  double      m_inflightHeadroom            {15/100};            //!< The fraction of unutilised headroom to leave in path upon high loss (BBRv2)
   uint32_t    m_alphaLastDelivered          {0};                 //!< The previous delivered bytes when the ECN was updated (BBRv2)
   uint32_t    m_alphaLastDeliveredEce       {0};                 //!< The previous delivered bytes with ece marked when the ECN was updated (BBRv2)
-  uint32_t    m_ecnFactor                   {1/3};               //!< The factor to reduce the inflight_lo once ECN is detected (BBRv2)
-  uint32_t    m_ecnThresh                   {1/2};               //!< The threshold at which CE ratio is max before probing is too much (BBRv2)
-  uint32_t    m_ecnGain                     {1/16};              //!< The factor for ECN mark ratio samples (BBRv2)
+  double      m_ecnFactor                   {1/3};               //!< The factor to reduce the inflight_lo once ECN is detected (BBRv2)
+  double      m_ecnThresh                   {1/2};               //!< The threshold at which CE ratio is max before probing is too much (BBRv2)
+  double      m_ecnGain                     {1/16};              //!< The factor for ECN mark ratio samples (BBRv2)
   uint32_t    m_ecnAlpha                    {1};                 //!< Ecn alpha value (BBRv2)
   uint32_t    m_fullEcnCount                {2};                 //!< The max number of of round trips that startup can go with Ecn rate over the threshold before exiting (BBRv2)
   uint32_t    m_startupEcnRounds            {0};                 //!< The number of round trips the Ecn rate has been above threshold in startup (BBRv2)
@@ -626,7 +626,6 @@ private:
   bool        m_enableExp                   {false};             //!< Enable experimental changes for BBRv2
   uint32_t    m_bwProbeSampleOk             {0};                 //!< Indicates if the bw sample had low ECN/loss (BBRv2)
   bool        m_isEce                       {false};             //!< Set if an ECE was received in the latest ACK (BBRv2)
-  //TODO tidy variables in respective variants
 };
 
 } // namespace ns3

@@ -22,13 +22,16 @@ Ptr<OutputStreamWrapper> ssThreshStream;
 Ptr<OutputStreamWrapper> rttStream;
 Ptr<OutputStreamWrapper> rtoStream;
 Ptr<OutputStreamWrapper> inFlightStream;
+Ptr<OutputStreamWrapper> throughputStream;
+Ptr<OutputStreamWrapper> lossStream;
+Ptr<OutputStreamWrapper> delayStream;
 uint32_t cWndValue;
 uint32_t ssThreshValue;
 bool m_state = false;
 
 static void ChangeDataRate ()
 {
-  if (!m_state)
+  if (m_state)
     {
       Config::Set ("/NodeList/0/DeviceList/0/DataRate", StringValue ("10Mbps"));
       Config::Set ("/NodeList/1/DeviceList/0/DataRate", StringValue ("10Mbps"));
@@ -40,7 +43,7 @@ static void ChangeDataRate ()
       Config::Set ("/NodeList/1/DeviceList/0/DataRate", StringValue ("20Mbps"));
       m_state = true;
     }
-    Simulator::Schedule (Seconds (20), ChangeDataRate);
+    Simulator::Schedule (Seconds (50), ChangeDataRate);
 }
 
 static void
@@ -145,6 +148,41 @@ TraceInFlight (std::string &in_flight_file_name)
   Config::ConnectWithoutContext ("/NodeList/2/$ns3::TcpL4Protocol/SocketList/0/BytesInFlight", MakeCallback (&InFlightTracer));
 }
 
+static void
+TraceThroughput (Ptr<FlowMonitor> monitor)
+{
+  
+  FlowMonitor::FlowStatsContainer stats = monitor->GetFlowStats ();
+  for (std::map<FlowId, FlowMonitor::FlowStats>::const_iterator i = stats.begin (); i != stats.end (); ++i)
+    {
+      double throughput = (double) (i->second.rxBytes * 8.0) / (double) (i->second.timeLastRxPacket.GetSeconds () - i->second.timeFirstTxPacket.GetSeconds ()) / 1024 / 1024;
+      *throughputStream->GetStream () << Simulator::Now ().GetSeconds () << " " << i->first << " " << throughput << std::endl;
+    }
+  Simulator::Schedule (Seconds (0.1), &TraceThroughput, monitor);
+}
+
+static void
+TraceLoss (Ptr<FlowMonitor> monitor)
+{
+  FlowMonitor::FlowStatsContainer stats = monitor->GetFlowStats ();
+  for (std::map<FlowId, FlowMonitor::FlowStats>::const_iterator i = stats.begin (); i != stats.end (); ++i)
+    {
+      *lossStream->GetStream () << Simulator::Now ().GetSeconds () << " " << i->first << " " << i->second.lostPackets << std::endl;
+    }
+  Simulator::Schedule (Seconds (0.1), &TraceLoss, monitor);
+}
+
+static void
+TraceDelay (Ptr<FlowMonitor> monitor)
+{
+  FlowMonitor::FlowStatsContainer stats = monitor->GetFlowStats ();
+  for (std::map<FlowId , FlowMonitor::FlowStats>::const_iterator i = stats.begin (); i!= stats.end (); ++i)
+  {
+    *delayStream->GetStream () << Simulator::Now ().GetSeconds () << " " << i->first << " " << i->second.lastDelay << std::endl;
+  }
+  Simulator::Schedule (Seconds (0.1), &TraceDelay, monitor);
+}
+
 static std::string
 WhichVariant (TcpBbr::BbrVar variant)
 {
@@ -171,22 +209,31 @@ int main (int argc, char *argv[])
   double minRto = 0.2;
   uint32_t initialCwnd = 10;
   double error_p = 0.00;
-  uint32_t size  = 3;
-  uint32_t    nLeaf = 2; // If non-zero, number of both left and right
+  double size  = 3.0/2.0;
+  uint32_t    nLeaf = 3; // If non-zero, number of both left and right
   double start_time = 0.01;
-  double stop_time = 100;
-  double data_mbytes = 1;
+  double stop_time = 100.0;
+  double data_mbytes = 0;
   uint32_t mtu_bytes = 536;
   std::string bandwidth = "10Mbps";
-  std::string delay = "18ms";
+  std::string delay = "10ms";
   std::string access_bandwidth = "40Mbps";
   std::string access_delay = "1ms";
   std::string transport_prot = "TcpBbr";
-  TcpBbr::BbrVar variant = TcpBbr::BBR_V2;
+  TcpBbr::BbrVar variant = TcpBbr::BBR_DELAY;
   std::string varstr = WhichVariant (variant);
   std::string scenario = "1";
-  bool ecn = true;
-  bool exp = true;
+  bool ecn = false;
+  bool exp = false;
+  double lambda = 1.0/2.0;
+  bool pcap = false;
+  bool cubic = false;
+  bool vegas = true;
+
+  if (variant == TcpBbr::BBR_HSR)
+    {
+      varstr += std::to_string(lambda);
+    }
 
   if (variant == TcpBbr::BBR_V2)
     {
@@ -200,7 +247,18 @@ int main (int argc, char *argv[])
         }
     }
 
- time_t rawtime;
+  varstr += bandwidth + "-" + delay + "-" + std::to_string(size);
+
+  if (cubic)
+    {
+      varstr += "vsCubic";
+    }
+  else if (vegas)
+    {
+      varstr += "vsVegas";
+    }
+
+  time_t rawtime;
   struct tm * timeinfo;
   char buffer[80];
 
@@ -284,7 +342,7 @@ int main (int argc, char *argv[])
       NS_ABORT_MSG_UNLESS (TypeId::LookupByNameFailSafe (transport_prot, &tcpTid), "TypeId " << transport_prot << " not found");
       Config::SetDefault ("ns3::TcpL4Protocol::SocketType", TypeIdValue (TypeId::LookupByName (transport_prot)));
       Config::SetDefault ("ns3::TcpBbr::BBRVariant", EnumValue (variant));
-      Config::SetDefault ("ns3::TcpBbr::RTPropLambda", UintegerValue (1/2));
+      Config::SetDefault ("ns3::TcpBbr::RTPropLambda", DoubleValue (lambda));
     }
 
   Ptr<UniformRandomVariable> uv = CreateObject<UniformRandomVariable> ();
@@ -305,17 +363,16 @@ int main (int argc, char *argv[])
   pointToPointLeaf.SetChannelAttribute   ("Delay", StringValue (access_delay));
 
   PointToPointDumbbellHelper d (nLeaf + 1, pointToPointLeaf,
-                                nLeaf + 1, pointToPointLeaf,
-                                pointToPointRouter);
-
+                            nLeaf + 1, pointToPointLeaf,
+                            pointToPointRouter);
   // Install Stack
   InternetStackHelper stack;
   d.InstallStack (stack);
 
   // Assign IP Addresses
   d.AssignIpv4Addresses (Ipv4AddressHelper ("10.1.1.0", "255.255.255.0"),
-                         Ipv4AddressHelper ("10.2.1.0", "255.255.255.0"),
-                         Ipv4AddressHelper ("10.3.1.0", "255.255.255.0"));
+                        Ipv4AddressHelper ("10.2.1.0", "255.255.255.0"),
+                        Ipv4AddressHelper ("10.3.1.0", "255.255.255.0"));
 
   // Install app on all right side nodes
   uint16_t port = 50000;
@@ -323,42 +380,52 @@ int main (int argc, char *argv[])
   PacketSinkHelper sinkHelper ("ns3::TcpSocketFactory", sinkLocalAddress);
   ApplicationContainer sinkApp;
 
-  for (uint16_t i = 0; i < nLeaf; i++)
+  if (cubic)
     {
-      sinkApp.Add (sinkHelper.Install (d.GetRight (i)));
+      TypeId tid = TypeId::LookupByName ("ns3::TcpCubic");
+      std::stringstream nodeId;
+      nodeId << d.GetLeft (2)->GetId ();
+      std::string node = "/NodeList/" + nodeId.str () + "/$ns3::TcpL4Protocol/SocketType";
+      Config::Set (node, TypeIdValue (tid));
     }
-
-  PacketSinkHelper udpSink ("ns3::UdpSocketFactory",
-                            Address (InetSocketAddress (Ipv4Address::GetAny (), port)));
-  sinkApp.Add (udpSink.Install (d.GetRight (nLeaf)));
-  sinkApp.Start (Seconds (start_time));
-  sinkApp.Stop (Seconds (stop_time));
-
-  BulkSendHelper ftp ("ns3::TcpSocketFactory", Address ());
-  ftp.SetAttribute ("MaxBytes", UintegerValue (int(data_mbytes * 1000000)));
-  ftp.SetAttribute ("SendSize", UintegerValue (tcp_adu_size));
-
-  ApplicationContainer sourceApp;
+  else if (vegas)
+    {
+      TypeId tid = TypeId::LookupByName ("ns3::TcpVegas");
+      std::stringstream nodeId;
+      nodeId << d.GetLeft (2)->GetId ();
+      std::string node = "/NodeList/" + nodeId.str () + "/$ns3::TcpL4Protocol/SocketType";
+      Config::Set (node, TypeIdValue (tid));
+    }
 
   for (uint32_t i = 0; i < nLeaf; ++i)
     {
+      sinkApp.Add (sinkHelper.Install (d.GetRight (i)));
+      sinkApp.Start (Seconds (start_time));
+      sinkApp.Stop (Seconds (stop_time));
+
+      BulkSendHelper ftp ("ns3::TcpSocketFactory", Address ());
+      ftp.SetAttribute ("MaxBytes", UintegerValue (int(data_mbytes * 1000000)));
+      ftp.SetAttribute ("SendSize", UintegerValue (tcp_adu_size));
+
+      ApplicationContainer sourceApp;
+
       AddressValue remoteAddress (InetSocketAddress (d.GetRightIpv4Address (i), port));
       ftp.SetAttribute ("Remote", remoteAddress);
       sourceApp = ftp.Install (d.GetLeft (i));
-      sourceApp.Start (Seconds (start_time + i * 0.1));
-      sourceApp.Stop (Seconds (stop_time - 1));
-    }
-
-  AddressValue remoteAddress (InetSocketAddress (d.GetRightIpv4Address (nLeaf), port));
-  OnOffHelper onOffHelper ("ns3::UdpSocketFactory", Address ());
-  onOffHelper.SetConstantRate (DataRate ("1Mbps"));
-  onOffHelper.SetAttribute ("OnTime", StringValue ("ns3::ConstantRandomVariable[Constant=0.01]"));
-  onOffHelper.SetAttribute ("OffTime", StringValue ("ns3::ConstantRandomVariable[Constant=10]"));
-  onOffHelper.SetAttribute ("Remote", remoteAddress);
-
-  sourceApp = onOffHelper.Install (d.GetLeft (nLeaf));
-  sourceApp.Start (Seconds (start_time));
-  sourceApp.Stop (Seconds (stop_time - 1));
+      sourceApp.Start (Seconds (start_time + i * 20));
+      if (i == 3)
+        {
+          sourceApp.Stop (Seconds (stop_time / 2));
+        }
+      else if (i == 4)
+        {
+          sourceApp.Stop (Seconds (stop_time - 50));
+        }
+      else
+        {
+          sourceApp.Stop (Seconds (stop_time - 1));
+        }
+    } 
 
   // Set up the acutal simulation
   Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
@@ -371,21 +438,32 @@ int main (int argc, char *argv[])
   Simulator::Schedule (Seconds (start_time + 0.000001), &TraceRtt, dir + "rtt.data");
   Simulator::Schedule (Seconds (start_time + 0.000001), &TraceRto, dir + "rto.data");
   Simulator::Schedule (Seconds (start_time + 0.000001), &TraceInFlight, dir + "inflight.data");
+    
 
   if (scenario == "2")
     {
-      Simulator::Schedule (Seconds (20), &ChangeDataRate);
+      Simulator::Schedule (Seconds (50), &ChangeDataRate);
     }
 
-//  GtkConfigStore configstore;
-//  configstore.ConfigureAttributes ();
-//  configstore.ConfigureDefaults ();
+  if (pcap)
+    {
+      pointToPointRouter.EnablePcapAll (dir + "p", d.GetLeft ());
+    }
 
-  pointToPointRouter.EnablePcapAll (dir + "p", d.GetLeft ());
-
-  // 8. Install FlowMonitor on all nodes
+  // Install FlowMonitor on all nodes
   FlowMonitorHelper flowmon;
   Ptr<FlowMonitor> monitor = flowmon.InstallAll ();
+
+  std::string throughputFileName = dir + "throughput.data";
+  std::string lossFileName = dir + "loss.data";
+  std::string delayFileName = dir + "delay.data";
+  AsciiTraceHelper ascii; 
+  throughputStream = ascii.CreateFileStream (throughputFileName.c_str ());
+  lossStream = ascii.CreateFileStream (lossFileName.c_str ());
+  delayStream = ascii.CreateFileStream (delayFileName.c_str ());
+  Simulator::Schedule (Seconds (start_time + 0.000001), &TraceThroughput, monitor);
+  Simulator::Schedule (Seconds (start_time + 0.000001), &TraceLoss, monitor);
+  Simulator::Schedule (Seconds (start_time + 0.000001), &TraceDelay, monitor);
 
   std::ofstream myfile;
   myfile.open (dir + "config.txt", std::fstream::in | std::fstream::out | std::fstream::app);
@@ -402,27 +480,48 @@ int main (int argc, char *argv[])
   myfile << "initialCwnd  " << initialCwnd << "\n";
   myfile << "minRto " << minRto << "\n";
   myfile << "transport_prot " << transport_prot << "\n";
+  myfile << "variant" << varstr << "\n";
   myfile.close();
 
   Simulator::Stop (Seconds (stop_time + 1));
   Simulator::Run ();
 
+  uint32_t totalRxBytesCounter = 0;
+  for (uint32_t i = 0; i < sinkApp.GetN (); i++)
+    {
+      Ptr <Application> app = sinkApp.Get (i);
+      Ptr <PacketSink> pktSink = DynamicCast <PacketSink> (app);
+      totalRxBytesCounter += pktSink->GetTotalRx ();
+    }
+  std::cout << "\nGoodput Bytes/sec: "  << totalRxBytesCounter/Simulator::Now ().GetSeconds () << "\n";
+
   monitor->CheckForLostPackets ();
   Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier> (flowmon.GetClassifier ());
   FlowMonitor::FlowStatsContainer stats = monitor->GetFlowStats ();
+  std::ofstream file;
+  file.open (dir + "flows.data", std::fstream::in | std::fstream::out | std::fstream::app);
   for (std::map<FlowId, FlowMonitor::FlowStats>::const_iterator i = stats.begin (); i != stats.end (); ++i)
     {
       Ipv4FlowClassifier::FiveTuple t = classifier->FindFlow (i->first);
       std::cout << "Flow " << i->first << " (" << t.sourceAddress << " -> " << t.destinationAddress << ")\n";
-      std::cout << "  Tx Packets: " << i->second.txPackets << "\n";
-      std::cout << "  Tx Bytes:   " << i->second.txBytes << "\n";
-      std::cout << "  TxOffered:  " << i->second.txBytes * 8.0 / 9.0 / 1000 / 1000  << " Mbps\n";
-      std::cout << "  Rx Packets: " << i->second.rxPackets << "\n";
-      std::cout << "  Rx Bytes:   " << i->second.rxBytes << "\n";
-      std::cout << "  Throughput: " << i->second.rxBytes * 8.0 / 9.0 / 1000 / 1000  << " Mbps\n";
+      file << "Flow " << i->first << " (" << t.sourceAddress << " -> " << t.destinationAddress << ")\n";
+      file << "Tx Packets: " << i->second.txPackets << "\n";
+      file << "Tx Bytes: " << i->second.txBytes << "\n";
+      file << "Rx Packets: " << i->second.rxPackets << "\n";
+      file << "Rx Bytes: " << i->second.rxBytes << "\n";
+      file << "Delay Sum: " << i->second.delaySum << "\n";
+      file << "Jitter Sum: " << i->second.jitterSum << "\n";
+      file << "Last Delay: " << i->second.lastDelay << "\n";
+      file << "Lost Packets: " << i->second.lostPackets << "\n";
+      file << "Times Forwarded: " << i->second.timesForwarded << "\n";
+      file << "Throughput: " << ((double) i->second.rxBytes * 8.0) / (double) (i->second.timeLastRxPacket.GetSeconds () - i->second.timeFirstTxPacket.GetSeconds ()) / 1024 / 1024 << " Mbps" << "\n";
+      file << "Packet loss Ratio: " << ((double) i->second.txPackets - (double) i->second.rxPackets) / (double) i->second.txPackets << "\n";
+      file << "Delay mean: " << i->second.delaySum.GetSeconds () / i->second.rxPackets << "\n";
+      file << "Jitter mean: " << i->second.jitterSum.GetSeconds () / i->second.rxPackets << "\n";
     }
 
-
+  file << "Goodput Bytes/Sec: " << totalRxBytesCounter/Simulator::Now ().GetSeconds ();
+  file.close ();
   Simulator::Destroy ();
   return 0;
 }
