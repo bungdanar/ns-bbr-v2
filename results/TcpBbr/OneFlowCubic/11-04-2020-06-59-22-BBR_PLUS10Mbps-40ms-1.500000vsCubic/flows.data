@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 6530
+Tx Bytes: 3446416
+Rx Packets: 6528
+Rx Bytes: 3445360
+Delay Sum: +717311234840.0ns
+Jitter Sum: +4736271435.0ns
+Last Delay: +42636000.0ns
+Lost Packets: 0
+Times Forwarded: 13056
+Throughput: 0.130803 Mbps
+Packet loss Ratio: 0.000306279
+Delay mean: 0.109882
+Jitter mean: 0.000725532
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 3358
+Tx Bytes: 174620
+Rx Packets: 3357
+Rx Bytes: 174568
+Delay Sum: +141211531687.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +42064798.0ns
+Lost Packets: 0
+Times Forwarded: 6714
+Throughput: 0.00662826 Mbps
+Packet loss Ratio: 0.000297796
+Delay mean: 0.0420648
+Jitter mean: 1.43015e-09
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 223638
+Tx Bytes: 118078964
+Rx Packets: 223638
+Rx Bytes: 118078964
+Delay Sum: +36994580794898.0ns
+Jitter Sum: +72436330057.0ns
+Last Delay: +42064798.0ns
+Lost Packets: 0
+Times Forwarded: 447276
+Throughput: 5.02534 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.165422
+Jitter mean: 0.0003239
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 111819
+Tx Bytes: 5814592
+Rx Packets: 111819
+Rx Bytes: 5814592
+Delay Sum: +4703643675963.0ns
+Jitter Sum: +28401.0ns
+Last Delay: +42088398.0ns
+Lost Packets: 0
+Times Forwarded: 223638
+Throughput: 0.24758 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0420648
+Jitter mean: 2.53991e-10
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 193234
+Tx Bytes: 102025652
+Rx Packets: 193234
+Rx Bytes: 102025652
+Delay Sum: +35267954862042.0ns
+Jitter Sum: +85601939472.0ns
+Last Delay: +42064798.0ns
+Lost Packets: 0
+Times Forwarded: 386468
+Throughput: 4.88739 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.182514
+Jitter mean: 0.000442996
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 96617
+Tx Bytes: 5024088
+Rx Packets: 96617
+Rx Bytes: 5024088
+Delay Sum: +4064174593167.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +42064798.0ns
+Lost Packets: 0
+Times Forwarded: 193234
+Throughput: 0.240849 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0420648
+Jitter mean: 4.9691e-11
+Goodput Bytes/Sec: 1.00221e+06

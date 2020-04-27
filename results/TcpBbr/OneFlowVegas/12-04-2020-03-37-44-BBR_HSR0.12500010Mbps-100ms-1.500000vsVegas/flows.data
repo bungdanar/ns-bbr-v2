@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 14053
+Tx Bytes: 7418560
+Rx Packets: 14046
+Rx Bytes: 7414864
+Delay Sum: +1474716818340.0ns
+Jitter Sum: +3168170295.0ns
+Last Delay: +102636000.0ns
+Lost Packets: 0
+Times Forwarded: 28092
+Throughput: 0.28147 Mbps
+Packet loss Ratio: 0.000498114
+Delay mean: 0.104992
+Jitter mean: 0.000225557
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 7034
+Tx Bytes: 365772
+Rx Packets: 7028
+Rx Bytes: 365460
+Delay Sum: +717311411547.0ns
+Jitter Sum: +17605.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 14056
+Throughput: 0.0138842 Mbps
+Packet loss Ratio: 0.000853
+Delay mean: 0.102065
+Jitter mean: 2.50498e-09
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 228137
+Tx Bytes: 120454912
+Rx Packets: 228137
+Rx Bytes: 120454912
+Delay Sum: +23886774962433.0ns
+Jitter Sum: +22393605267.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 456274
+Throughput: 5.12548 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.104704
+Jitter mean: 9.81586e-05
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 114077
+Tx Bytes: 5932008
+Rx Packets: 114077
+Rx Bytes: 5932008
+Delay Sum: +11643246009447.0ns
+Jitter Sum: +48001.0ns
+Last Delay: +102107998.0ns
+Lost Packets: 0
+Times Forwarded: 228154
+Throughput: 0.252701 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.102065
+Jitter mean: 4.20777e-10
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 134576
+Tx Bytes: 71054704
+Rx Packets: 134576
+Rx Bytes: 71054704
+Delay Sum: +14182354278829.0ns
+Jitter Sum: +58202074521.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 269152
+Throughput: 3.40089 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.105385
+Jitter mean: 0.000432485
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 67290
+Tx Bytes: 3499084
+Rx Packets: 67290
+Rx Bytes: 3499084
+Delay Sum: +6867940305421.0ns
+Jitter Sum: +48001.0ns
+Last Delay: +102107998.0ns
+Lost Packets: 0
+Times Forwarded: 134580
+Throughput: 0.167691 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.102065
+Jitter mean: 7.13345e-10
+Goodput Bytes/Sec: 892154

@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 14758
+Tx Bytes: 7790800
+Rx Packets: 14756
+Rx Bytes: 7789744
+Delay Sum: +396946990153.0ns
+Jitter Sum: +3292747751.0ns
+Last Delay: +12636000.0ns
+Lost Packets: 0
+Times Forwarded: 29512
+Throughput: 0.295711 Mbps
+Packet loss Ratio: 0.00013552
+Delay mean: 0.0269007
+Jitter mean: 0.000223146
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 7378
+Tx Bytes: 383660
+Rx Packets: 7378
+Rx Bytes: 383660
+Delay Sum: +89014084445.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 14756
+Throughput: 0.0145644 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 6.50718e-10
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 17346
+Tx Bytes: 9157264
+Rx Packets: 17344
+Rx Bytes: 9156208
+Delay Sum: +429525872807.0ns
+Jitter Sum: +3309061371.0ns
+Last Delay: +12636000.0ns
+Lost Packets: 0
+Times Forwarded: 34688
+Throughput: 0.385998 Mbps
+Packet loss Ratio: 0.0001153
+Delay mean: 0.0247651
+Jitter mean: 0.00019079
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 8672
+Tx Bytes: 450948
+Rx Packets: 8672
+Rx Bytes: 450948
+Delay Sum: +104625976257.0ns
+Jitter Sum: +91201.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 17344
+Throughput: 0.0190107 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 1.05167e-08
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 365646
+Tx Bytes: 193059664
+Rx Packets: 365277
+Rx Bytes: 192864832
+Delay Sum: +24319742558214.0ns
+Jitter Sum: +154070781641.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 369
+Times Forwarded: 730554
+Throughput: 9.24739 Mbps
+Packet loss Ratio: 0.00100917
+Delay mean: 0.0665789
+Jitter mean: 0.000421792
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 188305
+Tx Bytes: 9949704
+Rx Packets: 188305
+Rx Bytes: 9949704
+Delay Sum: +2272051243158.0ns
+Jitter Sum: +1833545.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 376610
+Throughput: 0.477136 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120658
+Jitter mean: 9.7371e-09
+Goodput Bytes/Sec: 932439

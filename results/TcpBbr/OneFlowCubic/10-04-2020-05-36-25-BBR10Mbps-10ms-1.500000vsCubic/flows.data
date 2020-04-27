@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 19180
+Tx Bytes: 10125128
+Rx Packets: 19176
+Rx Bytes: 10123016
+Delay Sum: +715862405245.0ns
+Jitter Sum: +12135783157.0ns
+Last Delay: +12050398.0ns
+Lost Packets: 4
+Times Forwarded: 38352
+Throughput: 0.384492 Mbps
+Packet loss Ratio: 0.000208551
+Delay mean: 0.0373312
+Jitter mean: 0.000632863
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 9599
+Tx Bytes: 499312
+Rx Packets: 9599
+Rx Bytes: 499312
+Delay Sum: +115810192809.0ns
+Jitter Sum: +81605.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 19198
+Throughput: 0.0189671 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 8.50141e-09
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 232051
+Tx Bytes: 122521504
+Rx Packets: 231599
+Rx Bytes: 122282848
+Delay Sum: +15456896356151.0ns
+Jitter Sum: +66059353520.0ns
+Last Delay: +17096001.0ns
+Lost Packets: 452
+Times Forwarded: 463198
+Throughput: 5.20668 Mbps
+Packet loss Ratio: 0.00194785
+Delay mean: 0.0667399
+Jitter mean: 0.000285232
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 120654
+Tx Bytes: 6444332
+Rx Packets: 120654
+Rx Bytes: 6444332
+Delay Sum: +1455870568534.0ns
+Jitter Sum: +3350355.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 241308
+Throughput: 0.274438 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120665
+Jitter mean: 2.77683e-08
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 180994
+Tx Bytes: 95563408
+Rx Packets: 180390
+Rx Bytes: 95244496
+Delay Sum: +12651910940802.0ns
+Jitter Sum: +83448717821.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 604
+Times Forwarded: 360780
+Throughput: 4.56415 Mbps
+Packet loss Ratio: 0.00333713
+Delay mean: 0.0701364
+Jitter mean: 0.000462602
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 95311
+Tx Bytes: 5136816
+Rx Packets: 95311
+Rx Bytes: 5136816
+Delay Sum: +1150124776690.0ns
+Jitter Sum: +3619143.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 190622
+Throughput: 0.246238 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120671
+Jitter mean: 3.79719e-08
+Goodput Bytes/Sec: 1.01782e+06

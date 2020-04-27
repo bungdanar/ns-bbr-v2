@@ -1,0 +1,13 @@
+nLeaf 5
+bandwidth 10Mbps
+delay  10ms
+access_bandwidth 40Mbps
+access_delay 1ms
+mtu 536
+data  0.000000
+error_p 0
+qSize 82500
+scenario 1
+initialCwnd  10
+minRto 0.2
+transport_prot ns3::TcpBbr

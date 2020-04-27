@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 4534
+Tx Bytes: 2392528
+Rx Packets: 4532
+Rx Bytes: 2391472
+Delay Sum: +469962252866.0ns
+Jitter Sum: +972784361.0ns
+Last Delay: +102636000.0ns
+Lost Packets: 0
+Times Forwarded: 9064
+Throughput: 0.0908193 Mbps
+Packet loss Ratio: 0.000441112
+Delay mean: 0.103699
+Jitter mean: 0.000214648
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 2267
+Tx Bytes: 117888
+Rx Packets: 2266
+Rx Bytes: 117836
+Delay Sum: +231278837069.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 4532
+Throughput: 0.00447592 Mbps
+Packet loss Ratio: 0.000441112
+Delay mean: 0.102065
+Jitter mean: 2.11871e-09
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 229577
+Tx Bytes: 121215232
+Rx Packets: 229577
+Rx Bytes: 121215232
+Delay Sum: +23921228243169.0ns
+Jitter Sum: +50559916953.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 459154
+Throughput: 5.15786 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.104197
+Jitter mean: 0.000220231
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 114797
+Tx Bytes: 5969448
+Rx Packets: 114797
+Rx Bytes: 5969448
+Delay Sum: +11716732664007.0ns
+Jitter Sum: +48001.0ns
+Last Delay: +102107998.0ns
+Lost Packets: 0
+Times Forwarded: 229594
+Throughput: 0.254297 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.102065
+Jitter mean: 4.18138e-10
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 143260
+Tx Bytes: 75639856
+Rx Packets: 143260
+Rx Bytes: 75639856
+Delay Sum: +15018327627290.0ns
+Jitter Sum: +61819589197.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 286520
+Throughput: 3.62132 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.104833
+Jitter mean: 0.00043152
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 71632
+Tx Bytes: 3724868
+Rx Packets: 71632
+Rx Bytes: 3724868
+Delay Sum: +7311105671141.0ns
+Jitter Sum: +73609.0ns
+Last Delay: +102107998.0ns
+Lost Packets: 0
+Times Forwarded: 143264
+Throughput: 0.17856 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.102065
+Jitter mean: 1.0276e-09
+Goodput Bytes/Sec: 893649

@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 4628
+Tx Bytes: 2442160
+Rx Packets: 4626
+Rx Bytes: 2441104
+Delay Sum: +494878410187.0ns
+Jitter Sum: +1524095309.0ns
+Last Delay: +102636000.0ns
+Lost Packets: 0
+Times Forwarded: 9252
+Throughput: 0.0927061 Mbps
+Packet loss Ratio: 0.000432152
+Delay mean: 0.106978
+Jitter mean: 0.000329463
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 2389
+Tx Bytes: 124232
+Rx Packets: 2388
+Rx Bytes: 124180
+Delay Sum: +243730742425.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 4776
+Throughput: 0.00471647 Mbps
+Packet loss Ratio: 0.000418585
+Delay mean: 0.102065
+Jitter mean: 2.01047e-09
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 184606
+Tx Bytes: 97470544
+Rx Packets: 184606
+Rx Bytes: 97470544
+Delay Sum: +19985654119577.0ns
+Jitter Sum: +68394100509.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 369212
+Throughput: 4.14637 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.108261
+Jitter mean: 0.000370487
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 92311
+Tx Bytes: 4800176
+Rx Packets: 92311
+Rx Bytes: 4800176
+Delay Sum: +9421703616179.0ns
+Jitter Sum: +48001.0ns
+Last Delay: +102107998.0ns
+Lost Packets: 0
+Times Forwarded: 184622
+Throughput: 0.204431 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.102065
+Jitter mean: 5.19992e-10
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 204735
+Tx Bytes: 108098180
+Rx Packets: 204735
+Rx Bytes: 108098180
+Delay Sum: +22326674074218.0ns
+Jitter Sum: +87660046869.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 409470
+Throughput: 5.17706 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.109052
+Jitter mean: 0.000428163
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 102368
+Tx Bytes: 5323140
+Rx Packets: 102368
+Rx Bytes: 5323140
+Delay Sum: +10448169246465.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +102064798.0ns
+Lost Packets: 0
+Times Forwarded: 204736
+Throughput: 0.255264 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.102065
+Jitter mean: 4.68994e-11
+Goodput Bytes/Sec: 932598

@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 9734
+Tx Bytes: 5138128
+Rx Packets: 9732
+Rx Bytes: 5137072
+Delay Sum: +525397567944.0ns
+Jitter Sum: +14192113901.0ns
+Last Delay: +42636000.0ns
+Lost Packets: 0
+Times Forwarded: 19464
+Throughput: 0.195005 Mbps
+Packet loss Ratio: 0.000205465
+Delay mean: 0.0539866
+Jitter mean: 0.00145829
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 4867
+Tx Bytes: 253088
+Rx Packets: 4866
+Rx Bytes: 253036
+Delay Sum: +204687311869.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +42064798.0ns
+Lost Packets: 0
+Times Forwarded: 9732
+Throughput: 0.00960812 Mbps
+Packet loss Ratio: 0.000205465
+Delay mean: 0.0420648
+Jitter mean: 9.86642e-10
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 378421
+Tx Bytes: 199804864
+Rx Packets: 378421
+Rx Bytes: 199804864
+Delay Sum: +22671591962522.0ns
+Jitter Sum: +29688681915.0ns
+Last Delay: +42064798.0ns
+Lost Packets: 0
+Times Forwarded: 756842
+Throughput: 8.50861 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.059911
+Jitter mean: 7.84541e-05
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 189212
+Tx Bytes: 9839028
+Rx Packets: 189212
+Rx Bytes: 9839028
+Delay Sum: +7959164607177.0ns
+Jitter Sum: +48001.0ns
+Last Delay: +42107998.0ns
+Lost Packets: 0
+Times Forwarded: 378424
+Throughput: 0.419188 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0420648
+Jitter mean: 2.53689e-10
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 24149
+Tx Bytes: 12743392
+Rx Packets: 24149
+Rx Bytes: 12743392
+Delay Sum: +1437884715219.0ns
+Jitter Sum: +20110759188.0ns
+Last Delay: +42050398.0ns
+Lost Packets: 0
+Times Forwarded: 48298
+Throughput: 0.606705 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0595422
+Jitter mean: 0.000832778
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 12070
+Tx Bytes: 627644
+Rx Packets: 12070
+Rx Bytes: 627644
+Delay Sum: +507722159861.0ns
+Jitter Sum: +91201.0ns
+Last Delay: +42064798.0ns
+Lost Packets: 0
+Times Forwarded: 24140
+Throughput: 0.0298991 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0420648
+Jitter mean: 7.55601e-09
+Goodput Bytes/Sec: 976347

@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 22862
+Tx Bytes: 12069224
+Rx Packets: 22862
+Rx Bytes: 12069224
+Delay Sum: +668358321312.0ns
+Jitter Sum: +5069420301.0ns
+Last Delay: +12050398.0ns
+Lost Packets: 0
+Times Forwarded: 45724
+Throughput: 0.458531 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0292345
+Jitter mean: 0.00022174
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 11432
+Tx Bytes: 594468
+Rx Packets: 11432
+Rx Bytes: 594468
+Delay Sum: +137924775537.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 22864
+Throughput: 0.0225876 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 4.19962e-10
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 383687
+Tx Bytes: 202585312
+Rx Packets: 383626
+Rx Bytes: 202553104
+Delay Sum: +15387740340513.0ns
+Jitter Sum: +78162226285.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 61
+Times Forwarded: 767252
+Throughput: 8.62718 Mbps
+Packet loss Ratio: 0.000158984
+Delay mean: 0.0401113
+Jitter mean: 0.000203746
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 191977
+Tx Bytes: 9990232
+Rx Packets: 191977
+Rx Bytes: 9990232
+Delay Sum: +2316172682147.0ns
+Jitter Sum: +105599.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 383954
+Throughput: 0.425563 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 5.50061e-10
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 18052
+Tx Bytes: 9527592
+Rx Packets: 18052
+Rx Bytes: 9527592
+Delay Sum: +758873077908.0ns
+Jitter Sum: +11201896616.0ns
+Last Delay: +12050398.0ns
+Lost Packets: 0
+Times Forwarded: 36104
+Throughput: 0.453897 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0420382
+Jitter mean: 0.000620535
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 9025
+Tx Bytes: 469304
+Rx Packets: 9025
+Rx Bytes: 469304
+Delay Sum: +108884893151.0ns
+Jitter Sum: +134401.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 18050
+Throughput: 0.0223641 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 1.48921e-08
+Goodput Bytes/Sec: 1.00522e+06

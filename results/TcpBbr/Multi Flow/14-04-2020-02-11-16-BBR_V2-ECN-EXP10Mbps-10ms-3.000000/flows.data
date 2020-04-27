@@ -1,0 +1,141 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 35706
+Tx Bytes: 18850856
+Rx Packets: 35706
+Rx Bytes: 18850856
+Delay Sum: +608163856726.0ns
+Jitter Sum: +7362816613.0ns
+Last Delay: +12050398.0ns
+Lost Packets: 0
+Times Forwarded: 71412
+Throughput: 0.716298 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0170325
+Jitter mean: 0.000206207
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 17854
+Tx Bytes: 928412
+Rx Packets: 17854
+Rx Bytes: 928412
+Delay Sum: +215404908293.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 35708
+Throughput: 0.0352822 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 2.68903e-10
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 172150
+Tx Bytes: 90893776
+Rx Packets: 172132
+Rx Bytes: 90884272
+Delay Sum: +3887385658136.0ns
+Jitter Sum: +31568878663.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 18
+Times Forwarded: 344264
+Throughput: 3.8682 Mbps
+Packet loss Ratio: 0.00010456
+Delay mean: 0.0225837
+Jitter mean: 0.000183399
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 86196
+Tx Bytes: 4486652
+Rx Packets: 86196
+Rx Bytes: 4486652
+Delay Sum: +1039942736255.0ns
+Jitter Sum: +131211.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 172392
+Throughput: 0.190986 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120649
+Jitter mean: 1.52224e-09
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 133341
+Tx Bytes: 70402624
+Rx Packets: 133309
+Rx Bytes: 70385728
+Delay Sum: +3089945018885.0ns
+Jitter Sum: +26553573974.0ns
+Last Delay: +12099249.0ns
+Lost Packets: 32
+Times Forwarded: 266618
+Throughput: 3.37224 Mbps
+Packet loss Ratio: 0.000239986
+Delay mean: 0.0231788
+Jitter mean: 0.000199188
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 66791
+Tx Bytes: 3478248
+Rx Packets: 66791
+Rx Bytes: 3478248
+Delay Sum: +805826105443.0ns
+Jitter Sum: +124799.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 133582
+Throughput: 0.166675 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120649
+Jitter mean: 1.8685e-09
+Flow 7 (10.1.4.1 -> 10.2.4.1)
+Tx Packets: 24421
+Tx Bytes: 12892864
+Rx Packets: 24421
+Rx Bytes: 12892864
+Delay Sum: +610030459579.0ns
+Jitter Sum: +6010839570.0ns
+Last Delay: +15824001.0ns
+Lost Packets: 0
+Times Forwarded: 48842
+Throughput: 2.33925 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0249797
+Jitter mean: 0.000246134
+Flow 8 (10.2.4.1 -> 10.1.4.1)
+Tx Packets: 12212
+Tx Bytes: 635028
+Rx Packets: 12212
+Rx Bytes: 635028
+Delay Sum: +147335361177.0ns
+Jitter Sum: +48001.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 24424
+Throughput: 0.115311 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 3.93064e-09
+Flow 9 (10.1.5.1 -> 10.2.5.1)
+Tx Packets: 65663
+Tx Bytes: 34668640
+Rx Packets: 65663
+Rx Bytes: 34668640
+Delay Sum: +2054964347310.0ns
+Jitter Sum: +13282500897.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 131326
+Throughput: 3.75909 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0312956
+Jitter mean: 0.000202283
+Flow 10 (10.2.5.1 -> 10.1.5.1)
+Tx Packets: 32833
+Tx Bytes: 1707320
+Rx Packets: 32833
+Rx Bytes: 1707320
+Delay Sum: +396123560735.0ns
+Jitter Sum: +48001.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 65666
+Throughput: 0.185197 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 1.46197e-09
+Goodput Bytes/Sec: 1.02104e+06

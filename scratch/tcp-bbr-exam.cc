@@ -210,9 +210,9 @@ int main (int argc, char *argv[])
   uint32_t initialCwnd = 10;
   double error_p = 0.00;
   double size  = 3.0/2.0;
-  uint32_t    nLeaf = 3; // If non-zero, number of both left and right
+  uint32_t    nLeaf = 5; // If non-zero, number of both left and right
   double start_time = 0.01;
-  double stop_time = 100.0;
+  double stop_time = 200.0;
   double data_mbytes = 0;
   uint32_t mtu_bytes = 536;
   std::string bandwidth = "10Mbps";
@@ -220,15 +220,15 @@ int main (int argc, char *argv[])
   std::string access_bandwidth = "40Mbps";
   std::string access_delay = "1ms";
   std::string transport_prot = "TcpBbr";
-  TcpBbr::BbrVar variant = TcpBbr::BBR_DELAY;
+  TcpBbr::BbrVar variant = TcpBbr::BBR_V2;
   std::string varstr = WhichVariant (variant);
   std::string scenario = "1";
-  bool ecn = false;
+  bool ecn = true;
   bool exp = false;
   double lambda = 1.0/2.0;
   bool pcap = false;
   bool cubic = false;
-  bool vegas = true;
+  bool vegas = false;
 
   if (variant == TcpBbr::BBR_HSR)
     {

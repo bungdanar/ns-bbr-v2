@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 19365
+Tx Bytes: 10222808
+Rx Packets: 19364
+Rx Bytes: 10222280
+Delay Sum: +713551732628.0ns
+Jitter Sum: +6410135403.0ns
+Last Delay: +12050398.0ns
+Lost Packets: 1
+Times Forwarded: 38728
+Throughput: 0.388304 Mbps
+Packet loss Ratio: 5.16396e-05
+Delay mean: 0.0368494
+Jitter mean: 0.000331034
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 9686
+Tx Bytes: 503716
+Rx Packets: 9686
+Rx Bytes: 503716
+Delay Sum: +116859686229.0ns
+Jitter Sum: +24001.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 19372
+Throughput: 0.0191365 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 2.47791e-09
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 87953
+Tx Bytes: 46437760
+Rx Packets: 87927
+Rx Bytes: 46424032
+Delay Sum: +4631746876280.0ns
+Jitter Sum: +16789937787.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 26
+Times Forwarded: 175854
+Throughput: 1.97387 Mbps
+Packet loss Ratio: 0.000295612
+Delay mean: 0.0526772
+Jitter mean: 0.000190953
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 44121
+Tx Bytes: 2296968
+Rx Packets: 44121
+Rx Bytes: 2296968
+Delay Sum: +532314207031.0ns
+Jitter Sum: +412821.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 88242
+Throughput: 0.0976761 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120649
+Jitter mean: 9.35656e-09
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 325179
+Tx Bytes: 171693088
+Rx Packets: 324383
+Rx Bytes: 171272800
+Delay Sum: +23309431390144.0ns
+Jitter Sum: +137965841185.0ns
+Last Delay: +12523249.0ns
+Lost Packets: 796
+Times Forwarded: 648766
+Throughput: 8.21115 Mbps
+Packet loss Ratio: 0.00244788
+Delay mean: 0.0718577
+Jitter mean: 0.000425318
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 167557
+Tx Bytes: 8876624
+Rx Packets: 167557
+Rx Bytes: 8876624
+Delay Sum: +2021737791599.0ns
+Jitter Sum: +1967967.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 335114
+Throughput: 0.425637 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.012066
+Jitter mean: 1.17451e-08
+Goodput Bytes/Sec: 1.01491e+06

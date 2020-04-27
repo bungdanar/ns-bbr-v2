@@ -1,0 +1,85 @@
+Flow 1 (10.1.1.1 -> 10.2.1.1)
+Tx Packets: 22934
+Tx Bytes: 12107728
+Rx Packets: 22932
+Rx Bytes: 12106672
+Delay Sum: +296622471790.0ns
+Jitter Sum: +5083174629.0ns
+Last Delay: +12636000.0ns
+Lost Packets: 0
+Times Forwarded: 45864
+Throughput: 0.4596 Mbps
+Packet loss Ratio: 8.72068e-05
+Delay mean: 0.0129349
+Jitter mean: 0.000221663
+Flow 2 (10.2.1.1 -> 10.1.1.1)
+Tx Packets: 11466
+Tx Bytes: 596236
+Rx Packets: 11466
+Rx Bytes: 596236
+Delay Sum: +138334978669.0ns
+Jitter Sum: +4801.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 22932
+Throughput: 0.0226347 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 4.18716e-10
+Flow 3 (10.1.2.1 -> 10.2.2.1)
+Tx Packets: 25522
+Tx Bytes: 13474192
+Rx Packets: 25520
+Rx Bytes: 13473136
+Delay Sum: +329194396399.0ns
+Jitter Sum: +5119741947.0ns
+Last Delay: +12636000.0ns
+Lost Packets: 0
+Times Forwarded: 51040
+Throughput: 0.568003 Mbps
+Packet loss Ratio: 7.83638e-05
+Delay mean: 0.0128995
+Jitter mean: 0.000200617
+Flow 4 (10.2.2.1 -> 10.1.2.1)
+Tx Packets: 12760
+Tx Bytes: 663524
+Rx Packets: 12760
+Rx Bytes: 663524
+Delay Sum: +153946870481.0ns
+Jitter Sum: +91201.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 25520
+Throughput: 0.0279731 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 7.14741e-09
+Flow 5 (10.1.3.1 -> 10.2.3.1)
+Tx Packets: 349369
+Tx Bytes: 184465408
+Rx Packets: 349369
+Rx Bytes: 184465408
+Delay Sum: +4746190521369.0ns
+Jitter Sum: +148155248801.0ns
+Last Delay: +12064798.0ns
+Lost Packets: 0
+Times Forwarded: 698738
+Throughput: 8.84429 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.013585
+Jitter mean: 0.000424065
+Flow 6 (10.2.3.1 -> 10.1.3.1)
+Tx Packets: 174686
+Tx Bytes: 9083676
+Rx Packets: 174686
+Rx Bytes: 9083676
+Delay Sum: +2107551351429.0ns
+Jitter Sum: +48001.0ns
+Last Delay: +12107998.0ns
+Lost Packets: 0
+Times Forwarded: 349372
+Throughput: 0.435588 Mbps
+Packet loss Ratio: 0
+Delay mean: 0.0120648
+Jitter mean: 2.74784e-10
+Goodput Bytes/Sec: 942082
