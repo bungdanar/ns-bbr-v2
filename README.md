@@ -23,15 +23,15 @@ Result will be generated under ``results/`` directory.
 
 Congfigurable Variables:
 
-``nLeaf`` - Number of left and right side leaf nodes
-``bandwidth`` - Bottleneck bandwidth
-``delay`` - Bottleneck delay
-``access_bandwidth`` - Access link bandwidth
-``access_delay`` - Access link delay
-``size`` - Queue size
-``scenario`` - Bandwidth variance
-``variant`` - BBR variant (``BBR``, ``BBR_PRIME``, ``BBR_PLUS``, ``BBR_HSR``, ``BBR_V2``, ``BBR_DELAY``)
-``ecn`` - Explicit Congestion Notification (BBRv2)
-``exp`` - Experimental changes (BBRv2)
-``cubic`` - Enable Cubic flow
-``vegas`` - Enable Vegas flow
+``nLeaf`` - Number of left and right side leaf nodes  
+``bandwidth`` - Bottleneck bandwidth  
+``delay`` - Bottleneck delay  
+``access_bandwidth`` - Access link bandwidth  
+``access_delay`` - Access link delay  
+``size`` - Queue size  
+``scenario`` - Bandwidth variance  
+``variant`` - BBR variant (``BBR``, ``BBR_PRIME``, ``BBR_PLUS``, ``BBR_HSR``, ``BBR_V2``, ``BBR_DELAY``)  
+``ecn`` - Explicit Congestion Notification (BBRv2)  
+``exp`` - Experimental changes (BBRv2)  
+``cubic`` - Enable Cubic flow  
+``vegas`` - Enable Vegas flow  
