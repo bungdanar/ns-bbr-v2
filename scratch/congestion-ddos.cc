@@ -159,6 +159,7 @@ int main(int argc, char *argv[])
     uint32_t nWifiSta = 4;
     uint32_t nBot = 4;
     bool enableDdos = true;
+    std::string attackType = "udp";
 
     int idxRouterForServer = 0;
     int idxRouterForWired = 1;
@@ -176,6 +177,7 @@ int main(int argc, char *argv[])
     cmd.AddValue("n_wireless_client", "Jumlah wireless node client", nWifiSta);
     cmd.AddValue("n_bot", "Jumlah bot node client", nBot);
     cmd.AddValue("enable_ddos", "Enable or disable DDoS attack", enableDdos);
+    cmd.AddValue("attack_type", "DDoS attack type: udp, tcp, http", attackType);
     cmd.Parse(argc, argv);
     if (nWiredclient < 2)
     {
@@ -340,8 +342,11 @@ int main(int argc, char *argv[])
     mobilityHelper.Install(botNodes);
 
     // Set random walk for wifiSta
-    mobilityHelper.SetMobilityModel("ns3::RandomWalk2dMobilityModel", "Bounds",
-                                    RectangleValue(Rectangle(-50, 50, -50, 50)));
+    double rectSize = 50 * nBot;
+
+    mobilityHelper.SetMobilityModel(
+        "ns3::RandomWalk2dMobilityModel", "Bounds",
+        RectangleValue(Rectangle(-rectSize, rectSize, -rectSize, rectSize)));
     mobilityHelper.Install(wifiStaNodes);
 
     // Just some logging
@@ -367,23 +372,79 @@ int main(int argc, char *argv[])
     tcpSinkApp.Start(Seconds(0.0));
     tcpSinkApp.Stop(Seconds(maxSimulationTime));
 
-    // DDoS UDP Flood aplication behaviour
+    // DDoS UDP/TCP/HTTP Flood aplication behaviour
     if (enableDdos)
     {
-        OnOffHelper onoff(
-            "ns3::UdpSocketFactory",
-            Address(InetSocketAddress(serverInterfaces.GetAddress(0), udpSinkPort)));
-        onoff.SetConstantRate(DataRate(dataRate_ddos));
-        onoff.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=30]"));
-        onoff.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
-
-        ApplicationContainer onOffUdpBotApps[nBot];
-        for (int k = 0; k < nBot; ++k)
+        if (attackType == "tcp")
         {
-            onOffUdpBotApps[k] = onoff.Install(botNodes.Get(k));
-            onOffUdpBotApps[k].Start(Seconds(0.0));
-            onOffUdpBotApps[k].Stop(Seconds(maxSimulationTime));
+            std::cout << "Simulate with DDoS TCP flood attack..." << std::endl;
+
+            OnOffHelper onoff(
+                "ns3::TcpSocketFactory",
+                Address(InetSocketAddress(serverInterfaces.GetAddress(0), tcpSinkPort)));
+            onoff.SetConstantRate(DataRate(dataRate_ddos));
+            onoff.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=30]"));
+            onoff.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+
+            ApplicationContainer onOffTcpBotApps[nBot];
+            for (uint32_t k = 0; k < nBot; ++k)
+            {
+                onOffTcpBotApps[k] = onoff.Install(botNodes.Get(k));
+                onOffTcpBotApps[k].Start(Seconds(0.0));
+                onOffTcpBotApps[k].Stop(Seconds(maxSimulationTime));
+            }
         }
+        else if (attackType == "http")
+        {
+            // std::cout << "Simulate with DDoS HTTP flood attack..." << std::endl;
+
+            // ThreeGppHttpServerHelper httpServerHelper(serverInterfaces.GetAddress(0));
+            // ApplicationContainer httpServerApps = httpServerHelper.Install(serverNode.Get(0));
+            // Ptr<ThreeGppHttpServer> httpServer =
+            //     httpServerApps.Get(0)->GetObject<ThreeGppHttpServer>();
+
+            // // Setup HTTP variables for the server
+            // PointerValue varPtr;
+            // httpServer->GetAttribute("Variables", varPtr);
+            // Ptr<ThreeGppHttpVariables> httpVariables = varPtr.Get<ThreeGppHttpVariables>();
+            // httpVariables->SetMainObjectSizeMean(102400);  // 100kB
+            // httpVariables->SetMainObjectSizeStdDev(40960); // 40kB
+
+            // ThreeGppHttpClientHelper httpClientHelper(serverInterfaces.GetAddress(0));
+            // ApplicationContainer httpBotApps[nBot];
+            // for (uint32_t k = 0; k < nBot; k++)
+            // {
+            //     httpBotApps[k] = httpClientHelper.Install(botNodes.Get(k));
+            //     // Ptr<ThreeGppHttpClient> httpClient =
+            //     //     httpBotApps->Get (k)->GetObject<ThreeGppHttpClient> ();
+
+            //     httpBotApps[k].Start(Seconds(0.0));
+            //     httpBotApps[k].Stop(Seconds(maxSimulationTime));
+            // }
+        }
+        else
+        {
+            std::cout << "Simulate with DDoS UDP flood attack..." << std::endl;
+
+            OnOffHelper onoff(
+                "ns3::UdpSocketFactory",
+                Address(InetSocketAddress(serverInterfaces.GetAddress(0), udpSinkPort)));
+            onoff.SetConstantRate(DataRate(dataRate_ddos));
+            onoff.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=30]"));
+            onoff.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+
+            ApplicationContainer onOffUdpBotApps[nBot];
+            for (uint32_t k = 0; k < nBot; ++k)
+            {
+                onOffUdpBotApps[k] = onoff.Install(botNodes.Get(k));
+                onOffUdpBotApps[k].Start(Seconds(0.0));
+                onOffUdpBotApps[k].Stop(Seconds(maxSimulationTime));
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Simulate without DDoS attack..." << std::endl;
     }
 
     // Build legitimate TCP sender application for wired and wireless
