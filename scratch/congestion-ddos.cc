@@ -377,7 +377,8 @@ int main(int argc, char *argv[])
     {
         if (attackType == "tcp")
         {
-            std::cout << "Simulate with DDoS TCP flood attack..." << std::endl;
+            std::cout << "Simulate with DDoS TCP flood attack "
+                      << "with numbers of bot: " << nBot << std::endl;
 
             OnOffHelper onoff(
                 "ns3::TcpSocketFactory",
@@ -396,7 +397,8 @@ int main(int argc, char *argv[])
         }
         else if (attackType == "http")
         {
-            // std::cout << "Simulate with DDoS HTTP flood attack..." << std::endl;
+            std::cout << "Simulate with DDoS HTTP flood attack "
+                      << "with numbers of bot: " << nBot << std::endl;
 
             // ThreeGppHttpServerHelper httpServerHelper(serverInterfaces.GetAddress(0));
             // ApplicationContainer httpServerApps = httpServerHelper.Install(serverNode.Get(0));
@@ -424,7 +426,8 @@ int main(int argc, char *argv[])
         }
         else
         {
-            std::cout << "Simulate with DDoS UDP flood attack..." << std::endl;
+            std::cout << "Simulate with DDoS UDP flood attack "
+                      << "with numbers of bot: " << nBot << std::endl;
 
             OnOffHelper onoff(
                 "ns3::UdpSocketFactory",
