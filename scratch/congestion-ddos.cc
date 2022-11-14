@@ -185,8 +185,25 @@ int main(int argc, char *argv[])
     }
 
     // TCP congestion control configuration
-    std::string tcpTypeId = "TcpBbr";
-    Config::SetDefault("ns3::TcpL4Protocol::SocketType", StringValue("ns3::" + tcpTypeId));
+
+    // std::string tcpTypeId = "TcpBbr";
+    // Config::SetDefault("ns3::TcpL4Protocol::SocketType", StringValue("ns3::" + tcpTypeId));
+
+    double minRto = 0.2;
+    uint32_t initialCwnd = 10;
+    std::string transport_prot = "TcpBbr";
+    TcpBbr::BbrVar variant = TcpBbr::BBR;
+    double lambda = 1.0 / 2.0;
+
+    Config::SetDefault("ns3::TcpSocket::InitialCwnd", UintegerValue(initialCwnd));
+    Config::SetDefault("ns3::TcpSocketBase::MinRto", TimeValue(Seconds(minRto)));
+
+    transport_prot = std::string("ns3::") + transport_prot;
+    TypeId tcpTid;
+    NS_ABORT_MSG_UNLESS(TypeId::LookupByNameFailSafe(transport_prot, &tcpTid), "TypeId " << transport_prot << " not found");
+    Config::SetDefault("ns3::TcpL4Protocol::SocketType", TypeIdValue(TypeId::LookupByName(transport_prot)));
+    Config::SetDefault("ns3::TcpBbr::BBRVariant", EnumValue(variant));
+    Config::SetDefault("ns3::TcpBbr::RTPropLambda", DoubleValue(lambda));
 
     // Routers
     NodeContainer routerNodes;
