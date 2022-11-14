@@ -189,6 +189,31 @@ int main(int argc, char *argv[])
     // std::string tcpTypeId = "TcpBbr";
     // Config::SetDefault("ns3::TcpL4Protocol::SocketType", StringValue("ns3::" + tcpTypeId));
 
+    // Calculate the ADU size
+    // uint32_t mtu_bytes = 536;
+    // Header *temp_header = new Ipv4Header();
+    // uint32_t ip_header = temp_header->GetSerializedSize();
+    // delete temp_header;
+
+    // temp_header = new TcpHeader();
+    // uint32_t tcp_header = temp_header->GetSerializedSize();
+    // delete temp_header;
+    // uint32_t tcp_adu_size = mtu_bytes - 20 - (ip_header + tcp_header);
+    // Config::SetDefault("ns3::TcpSocket::SegmentSize", UintegerValue(tcp_adu_size));
+
+    // bool ecn = true;
+    // bool exp = true;
+    // if (exp)
+    // {
+    //     Config::SetDefault("ns3::TcpBbr::EnableExp", BooleanValue(true));
+    // }
+    // if (ecn)
+    // {
+    //     Config::SetDefault("ns3::TcpSocketBase::EcnMode", StringValue("ClassicEcn"));
+    //     Config::SetDefault("ns3::RedQueueDisc::UseEcn", BooleanValue(true));
+    //     Config::SetDefault("ns3::TcpBbr::EnableEcn", BooleanValue(true));
+    // }
+
     double minRto = 0.2;
     uint32_t initialCwnd = 10;
     std::string transport_prot = "TcpBbr";
