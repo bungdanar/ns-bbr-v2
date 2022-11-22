@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
     auto dataRate_p2pBot = StringValue("10Mbps");
     auto delay_p2pBot = StringValue("1ms");
 
-    std::string dataRate_ddos = "20480kb/s";
+    std::string dataRate_ddos = "20480";
 
     uint32_t nRouter = 3;
     uint32_t nServer = 1;
@@ -173,16 +173,19 @@ int main(int argc, char *argv[])
     double throughputTraceTime = 0 + 0.001;
 
     CommandLine cmd;
-    cmd.AddValue("n_wired_client", "Jumlah wired node client", nWiredclient);
-    cmd.AddValue("n_wireless_client", "Jumlah wireless node client", nWifiSta);
-    cmd.AddValue("n_bot", "Jumlah bot node client", nBot);
-    cmd.AddValue("enable_ddos", "Enable or disable DDoS attack", enableDdos);
-    cmd.AddValue("attack_type", "DDoS attack type: udp, tcp, http", attackType);
+    cmd.AddValue("n-wired-client", "Jumlah wired node client", nWiredclient);
+    cmd.AddValue("n-wireless-client", "Jumlah wireless node client", nWifiSta);
+    cmd.AddValue("n-bot", "Jumlah bot node client", nBot);
+    cmd.AddValue("enable-ddos", "Enable or disable DDoS attack", enableDdos);
+    cmd.AddValue("ddos-rate", "DDoS rate in kb/s", dataRate_ddos);
+    cmd.AddValue("attack-type", "DDoS attack type: udp, tcp, http", attackType);
     cmd.Parse(argc, argv);
     if (nWiredclient < 2)
     {
         nWiredclient = 2;
     }
+
+    dataRate_ddos = dataRate_ddos + "kb/s";
 
     // TCP congestion control configuration
 
