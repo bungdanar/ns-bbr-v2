@@ -134,6 +134,19 @@ TraceThroughput(Ptr<FlowMonitor> monitor)
     Simulator::Schedule(Seconds(0.2), &TraceThroughput, monitor);
 }
 
+static void
+TraceDelay(Ptr<FlowMonitor> monitor)
+{
+    FlowMonitor::FlowStatsContainer stats = monitor->GetFlowStats();
+    auto itr = stats.begin();
+    Time curTime = Now();
+    std::ofstream delay(dir + "/delay.dat", std::ios::out | std::ios::app);
+
+    delay << curTime << " " << itr->second.lastDelay << std::endl;
+
+    Simulator::Schedule(Seconds(0.1), &TraceDelay, monitor);
+}
+
 int main(int argc, char *argv[])
 {
     auto dataRate_p2pR01 = StringValue("10Mbps");
@@ -588,6 +601,9 @@ int main(int argc, char *argv[])
     FlowMonitorHelper flowmon;
     Ptr<FlowMonitor> monitor = flowmon.Install(wiredClientNodes.Get(1));
     Simulator::Schedule(Seconds(throughputTraceTime), &TraceThroughput, monitor);
+
+    Ptr<FlowMonitor> serverMonitor = flowmon.Install(serverNode.Get(0));
+    Simulator::Schedule(Seconds(throughputTraceTime), &TraceDelay, serverMonitor);
 
     // Test pcap on server side
     ppS0R0.EnablePcapAll("server");
