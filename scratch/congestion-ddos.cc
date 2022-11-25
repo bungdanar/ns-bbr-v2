@@ -197,6 +197,7 @@ int main(int argc, char *argv[])
     cmd.AddValue("ddos-rate", "DDoS rate in kb/s", dataRate_ddos);
     cmd.AddValue("attack-type", "DDoS attack type: udp, tcp, http", attackType);
     cmd.AddValue("bbr-type", "TcpBbr variant: BBR, BBR_PRIME, BBR_PLUS, BBR_HSR, BBR_V2, BBR_DELAY", variantInput);
+    cmd.AddValue("sim-time", "Simulation time in seconds", maxSimulationTime);
     cmd.Parse(argc, argv);
     if (nWiredclient < 2)
     {
@@ -465,7 +466,7 @@ int main(int argc, char *argv[])
         {
             std::cout << "Simulate with DDoS TCP flood attack "
                       << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")"
-                      << " and congestion control " << variantInput << std::endl;
+                      << " and congestion control " << variantInput << " for " << maxSimulationTime << " seconds" << std::endl;
 
             OnOffHelper onoff(
                 "ns3::TcpSocketFactory",
@@ -486,7 +487,7 @@ int main(int argc, char *argv[])
         {
             std::cout << "Simulate with DDoS HTTP flood attack "
                       << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")"
-                      << " and congestion control " << variantInput << std::endl;
+                      << " and congestion control " << variantInput << " for " << maxSimulationTime << " seconds" << std::endl;
 
             // ThreeGppHttpServerHelper httpServerHelper(serverInterfaces.GetAddress(0));
             // ApplicationContainer httpServerApps = httpServerHelper.Install(serverNode.Get(0));
@@ -516,7 +517,7 @@ int main(int argc, char *argv[])
         {
             std::cout << "Simulate with DDoS UDP flood attack "
                       << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")"
-                      << " and congestion control " << variantInput << std::endl;
+                      << " and congestion control " << variantInput << " for " << maxSimulationTime << " seconds" << std::endl;
 
             OnOffHelper onoff(
                 "ns3::UdpSocketFactory",
@@ -537,7 +538,7 @@ int main(int argc, char *argv[])
     else
     {
         std::cout << "Simulate without DDoS attack"
-                  << " and congestion control " << variantInput << std::endl;
+                  << " and congestion control " << variantInput << " for " << maxSimulationTime << " seconds" << std::endl;
     }
 
     // Build legitimate TCP sender application for wired and wireless
