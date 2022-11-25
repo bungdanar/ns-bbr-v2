@@ -185,6 +185,10 @@ int main(int argc, char *argv[])
 
     double throughputTraceTime = 0 + 0.001;
 
+    std::string transport_prot = "TcpBbr";
+    TcpBbr::BbrVar variant = TcpBbr::BBR;
+    std::string variantInput = "BBR";
+
     CommandLine cmd;
     cmd.AddValue("n-wired-client", "Jumlah wired node client", nWiredclient);
     cmd.AddValue("n-wireless-client", "Jumlah wireless node client", nWifiSta);
@@ -192,6 +196,7 @@ int main(int argc, char *argv[])
     cmd.AddValue("enable-ddos", "Enable or disable DDoS attack", enableDdos);
     cmd.AddValue("ddos-rate", "DDoS rate in kb/s", dataRate_ddos);
     cmd.AddValue("attack-type", "DDoS attack type: udp, tcp, http", attackType);
+    cmd.AddValue("bbr-type", "TcpBbr variant: BBR, BBR_PRIME, BBR_PLUS, BBR_HSR, BBR_V2, BBR_DELAY", variantInput);
     cmd.Parse(argc, argv);
     if (nWiredclient < 2)
     {
@@ -199,6 +204,31 @@ int main(int argc, char *argv[])
     }
 
     dataRate_ddos = dataRate_ddos + "kb/s";
+
+    if (variantInput == "BBR_PRIME")
+    {
+        variant = TcpBbr::BBR_PRIME;
+    }
+    else if (variantInput == "BBR_PLUS")
+    {
+        variant = TcpBbr::BBR_PLUS;
+    }
+    else if (variantInput == "BBR_HSR")
+    {
+        variant = TcpBbr::BBR_HSR;
+    }
+    else if (variantInput == "BBR_V2")
+    {
+        variant = TcpBbr::BBR_V2;
+    }
+    else if (variantInput == "BBR_DELAY")
+    {
+        variant = TcpBbr::BBR_DELAY;
+    }
+    else
+    {
+        variant = TcpBbr::BBR;
+    }
 
     // TCP congestion control configuration
 
@@ -232,8 +262,6 @@ int main(int argc, char *argv[])
 
     double minRto = 0.2;
     uint32_t initialCwnd = 10;
-    std::string transport_prot = "TcpBbr";
-    TcpBbr::BbrVar variant = TcpBbr::BBR;
     double lambda = 1.0 / 2.0;
 
     Config::SetDefault("ns3::TcpSocket::InitialCwnd", UintegerValue(initialCwnd));
@@ -436,7 +464,8 @@ int main(int argc, char *argv[])
         if (attackType == "tcp")
         {
             std::cout << "Simulate with DDoS TCP flood attack "
-                      << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")" << std::endl;
+                      << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")"
+                      << " and congestion control " << variantInput << std::endl;
 
             OnOffHelper onoff(
                 "ns3::TcpSocketFactory",
@@ -456,7 +485,8 @@ int main(int argc, char *argv[])
         else if (attackType == "http")
         {
             std::cout << "Simulate with DDoS HTTP flood attack "
-                      << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")" << std::endl;
+                      << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")"
+                      << " and congestion control " << variantInput << std::endl;
 
             // ThreeGppHttpServerHelper httpServerHelper(serverInterfaces.GetAddress(0));
             // ApplicationContainer httpServerApps = httpServerHelper.Install(serverNode.Get(0));
@@ -485,7 +515,8 @@ int main(int argc, char *argv[])
         else
         {
             std::cout << "Simulate with DDoS UDP flood attack "
-                      << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")" << std::endl;
+                      << "with numbers of bot: " << nBot << " (" << dataRate_ddos << ")"
+                      << " and congestion control " << variantInput << std::endl;
 
             OnOffHelper onoff(
                 "ns3::UdpSocketFactory",
@@ -505,7 +536,8 @@ int main(int argc, char *argv[])
     }
     else
     {
-        std::cout << "Simulate without DDoS attack..." << std::endl;
+        std::cout << "Simulate without DDoS attack"
+                  << " and congestion control " << variantInput << std::endl;
     }
 
     // Build legitimate TCP sender application for wired and wireless
