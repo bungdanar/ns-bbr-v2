@@ -147,17 +147,17 @@ TraceDelay(Ptr<FlowMonitor> monitor)
     Simulator::Schedule(Seconds(0.1), &TraceDelay, monitor);
 }
 
-// static void
-// TraceLoss(Ptr<FlowMonitor> monitor)
-// {
-//     FlowMonitor::FlowStatsContainer stats = monitor->GetFlowStats();
-//     auto itr = stats.begin();
-//     Time curTime = Now();
-//     std::ofstream loss(dir + "/loss.dat", std::ios::out | std::ios::app);
+static void
+TraceLoss(Ptr<FlowMonitor> monitor)
+{
+    FlowMonitor::FlowStatsContainer stats = monitor->GetFlowStats();
+    auto itr = stats.begin();
+    Time curTime = Now();
+    std::ofstream loss(dir + "/loss.dat", std::ios::out | std::ios::app);
 
-//     loss << curTime << " " << itr->second.lostPackets << std::endl;
-//     Simulator::Schedule(Seconds(0.1), &TraceLoss, monitor);
-// }
+    loss << curTime.GetSeconds() << " " << itr->second.txBytes - itr->second.rxBytes << std::endl;
+    Simulator::Schedule(Seconds(0.1), &TraceLoss, monitor);
+}
 
 int main(int argc, char *argv[])
 {
@@ -653,6 +653,7 @@ int main(int argc, char *argv[])
     std::cout << "Monitoring traffic from server node with id: " << targetMonitorServerNode->GetId() << " and ip address: " << targetMonitorServerNode->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal() << std::endl;
 
     Simulator::Schedule(Seconds(throughputTraceTime), &TraceThroughput, monitor);
+    Simulator::Schedule(Seconds(start_time + throughputTraceTime), &TraceLoss, monitor);
     Simulator::Schedule(Seconds(throughputTraceTime), &TraceDelay, serverMonitor);
 
     // Test pcap on server side
