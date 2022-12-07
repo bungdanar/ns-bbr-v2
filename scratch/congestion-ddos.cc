@@ -633,6 +633,8 @@ int main(int argc, char *argv[])
     // Flow Monitor
     FlowMonitorHelper flowmon;
     Ptr<FlowMonitor> monitor = flowmon.Install(wiredClientNodes.Get(1));
+    std::cout << "Monitoring traffic for client node with id: " << wiredClientNodes.Get(1)->GetId() << std::endl;
+
     Simulator::Schedule(Seconds(throughputTraceTime), &TraceThroughput, monitor);
 
     Ptr<FlowMonitor> serverMonitor = flowmon.Install(serverNode.Get(0));
