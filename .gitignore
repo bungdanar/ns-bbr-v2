@@ -41,5 +41,6 @@ build/
 DDoSim.xml
 
 results/
+congestion-ddos-results/
 
 .vscode

@@ -147,6 +147,18 @@ TraceDelay(Ptr<FlowMonitor> monitor)
     Simulator::Schedule(Seconds(0.1), &TraceDelay, monitor);
 }
 
+// static void
+// TraceLoss(Ptr<FlowMonitor> monitor)
+// {
+//     FlowMonitor::FlowStatsContainer stats = monitor->GetFlowStats();
+//     auto itr = stats.begin();
+//     Time curTime = Now();
+//     std::ofstream loss(dir + "/loss.dat", std::ios::out | std::ios::app);
+
+//     loss << curTime << " " << itr->second.lostPackets << std::endl;
+//     Simulator::Schedule(Seconds(0.1), &TraceLoss, monitor);
+// }
+
 int main(int argc, char *argv[])
 {
     auto dataRate_p2pR01 = StringValue("10Mbps");
@@ -565,8 +577,11 @@ int main(int argc, char *argv[])
     // Populate routing table
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
+    // Create a new directory to store the output of the program
+    handleOutputDirName();
+
     // NetAnim
-    AnimationInterface anim("DDoSim.xml");
+    AnimationInterface anim(dir + "/ddos.xml");
     const int yServer = 0;
     const int yWired = 10;
     const int yWifiAp = 20;
@@ -602,9 +617,6 @@ int main(int argc, char *argv[])
         currXbot += 5;
     }
 
-    // Create a new directory to store the output of the program
-    handleOutputDirName();
-
     // RTT and packet loss stuff
     uint16_t num_flows = 1;
     double start_time = 0.1;
@@ -631,13 +643,16 @@ int main(int argc, char *argv[])
     }
 
     // Flow Monitor
+    auto targetMonitorClientNode = wiredClientNodes.Get(1);
+    auto targetMonitorServerNode = serverNode.Get(0);
     FlowMonitorHelper flowmon;
-    Ptr<FlowMonitor> monitor = flowmon.Install(wiredClientNodes.Get(1));
-    std::cout << "Monitoring traffic for client node with id: " << wiredClientNodes.Get(1)->GetId() << std::endl;
+    Ptr<FlowMonitor> monitor = flowmon.Install(targetMonitorClientNode);
+    Ptr<FlowMonitor> serverMonitor = flowmon.Install(targetMonitorServerNode);
+
+    std::cout << "Monitoring traffic from client node with id: " << targetMonitorClientNode->GetId() << " and ip address: " << targetMonitorClientNode->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal() << std::endl;
+    std::cout << "Monitoring traffic from server node with id: " << targetMonitorServerNode->GetId() << " and ip address: " << targetMonitorServerNode->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal() << std::endl;
 
     Simulator::Schedule(Seconds(throughputTraceTime), &TraceThroughput, monitor);
-
-    Ptr<FlowMonitor> serverMonitor = flowmon.Install(serverNode.Get(0));
     Simulator::Schedule(Seconds(throughputTraceTime), &TraceDelay, serverMonitor);
 
     // Test pcap on server side
@@ -648,6 +663,9 @@ int main(int argc, char *argv[])
     // Run the Simulation
     Simulator::Stop(Seconds(maxSimulationTime));
     Simulator::Run();
+
+    // monitor->SerializeToXmlFile(dir + "/monitor.xml", true, false);
+
     Simulator::Destroy();
 
     return 0;
